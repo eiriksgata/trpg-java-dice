@@ -1,0 +1,9 @@
+coc:
+  ra-success: 属性检测[{0}]:{1}/{2} 成功!
+  ra-fail:
+  ra-big-fail:
+  roll-success:
+  roll-fail:
+  roll-big-fail:
+
+

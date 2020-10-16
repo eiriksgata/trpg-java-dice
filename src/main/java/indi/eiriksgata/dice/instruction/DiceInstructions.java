@@ -1,4 +1,4 @@
-package indi.eiriksgata.dice.instuction;
+package indi.eiriksgata.dice.instruction;
 
 import indi.eiriksgata.dice.injection.InstructService;
 import indi.eiriksgata.dice.injection.InstructReflex;

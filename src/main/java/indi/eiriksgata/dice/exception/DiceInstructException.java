@@ -3,12 +3,6 @@ package indi.eiriksgata.dice.exception;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * 业务统一异常
- *
- * @author Snake
- * @date 2019/11/14
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 //改成必须捕捉异样并处理，如果不符合指令的全部抛出异常，用于用户处理
@@ -39,4 +33,6 @@ public class DiceInstructException extends Exception {
         this.errCode = exceptionEnum.getErrCode();
         this.errMsg = exceptionEnum.getErrMsg();
     }
+
+
 }

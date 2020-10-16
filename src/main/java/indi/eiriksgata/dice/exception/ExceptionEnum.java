@@ -6,21 +6,22 @@ import lombok.Getter;
 public enum ExceptionEnum {
 
     // 系统错误的指令
-    DICE_INSTRUCT_NOT_FOUND(10001, "Not found dice instructs"),
+    DICE_INSTRUCT_NOT_FOUND(10001, "Not found dice instructs."),
+    DICE_INSTRUCT_HANDLE_ERR(10002, "Dice instruct handled err."),
 
 
     // system predefine
-    WARING(4,"Your operation may be abnormal"),
+    WARING(4, "Your operation may be abnormal."),
 
-    ATTONITY(3,"No operation content"),
+    ATTONITY(3, "No operation content."),
 
-    VERIFIED(2,"Waiting for your verification"),
+    VERIFIED(2, "Waiting for your verification."),
 
-    SUCCESS(0,"Operation Success"),
+    SUCCESS(0, "Operation Success."),
 
-    ERROR(-1,"System Error"),
+    ERROR(-1, "System Error."),
 
-    UNKNOWN(-2,"Unknown Exception");
+    UNKNOWN(-2, "Unknown Exception.");
 
     private Integer errCode;
     private String errMsg;

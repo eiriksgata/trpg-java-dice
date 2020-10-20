@@ -7,7 +7,10 @@ public enum ExceptionEnum {
 
     // 系统错误的指令
     DICE_INSTRUCT_NOT_FOUND(10001, "Not found dice instructs."),
-    DICE_INSTRUCT_HANDLE_ERR(10002, "Dice instruct handled err."),
+    DICE_INSTRUCT_HANDLE_ERR(10002, "Dice instruct handled error."),
+    DICE_INSTRUCT_PARAMETER_ERR(10003, "Dice instruct format error."),
+    DICE_SET_FACE_MAX_ERR(10004, "Dice set face number maximum exceeded."),
+    DICE_SET_FACE_MIN_ERR(10005, "Dice set face number less than minimum"),
 
 
     // system predefine

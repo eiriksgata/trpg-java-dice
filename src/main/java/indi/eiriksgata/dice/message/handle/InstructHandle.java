@@ -1,11 +1,13 @@
 package indi.eiriksgata.dice.message.handle;
 
+import indi.eiriksgata.dice.vo.MessageData;
 import indi.eiriksgata.dice.exception.DiceInstructException;
 import indi.eiriksgata.dice.exception.ExceptionEnum;
 import indi.eiriksgata.dice.injection.InstructService;
 import indi.eiriksgata.dice.injection.InstructReflex;
 import org.reflections.Reflections;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -19,15 +21,17 @@ import java.util.Set;
 public class InstructHandle {
 
     //唯一公开的调用方法
-    public String instructCheck(String message) throws DiceInstructException {
+    public String instructCheck(MessageData data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException {
         //先行判断是否符合指令样式
-        if (message.substring(0, 1).equals(".")) {
-            return trackInstructCases(message);
+        if (data.getMessage().substring(0, 1).equals(".")) {
+            //将所有空格舍去
+            data.setMessage(data.getMessage().replaceAll(" ", ""));
+            return trackInstructCases(data);
         }
         throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_NOT_FOUND);
     }
 
-    private String trackInstructCases(String message) throws DiceInstructException {
+    private String trackInstructCases(MessageData data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException {
         Reflections reflections = new Reflections("indi.eiriksgata.dice");
         Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(InstructService.class);
         for (Class clazz : typesAnnotatedWith) {
@@ -38,13 +42,9 @@ public class InstructHandle {
                     String[] instructArr = instructReflex.value();
                     for (String temp : instructArr) {
                         //方法增强检测命令
-                        if (instructMessageCheck(message, temp)) {
-                            try {
-                                return (String) method.invoke(clazz.newInstance(), message);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_HANDLE_ERR);
-                            }
+                        if (instructMessageCheck(data.getMessage(), temp)) {
+                            data.setMessage(data.getMessage().substring(temp.length()));
+                            return (String) method.invoke(clazz.newInstance(), data);
                         }
                     }
                 }

@@ -22,14 +22,14 @@ import java.util.regex.Pattern;
  * @description: indi.eiriksgata.dice.operation
  * @date:2020/10/13
  **/
-public class RollBasics {
+public class RollBasicsImpl {
 
     public static String diceGameType = "coc7";
     public static ConcurrentMap<Long, Integer> defaultDiceFace = new ConcurrentHashMap<>();
 
     public String rollRandom(String text, Long id) {
         String inputFormula = text;
-        List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]+", text);
+        List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]?", text);
         for (String temp : list) {
             if (temp.substring(0, 1).equals("d") ||
                     temp.substring(0, 1).equals("D")) {
@@ -37,16 +37,15 @@ public class RollBasics {
                     if (defaultDiceFace.get(id) == null) {
                         String diceType = DiceConfig.diceSet.getString("dice.type");
                         int diceFace = Integer.valueOf(DiceConfig.diceSet.getString(diceType + ".face"));
-                        text = temp.replace(temp, String.valueOf(createRandom(1, diceFace)[0]));
+                        text = text.replaceFirst(temp, String.valueOf(createRandom(1, diceFace)[0]));
+                        inputFormula = inputFormula.replaceFirst(temp, "D" + diceFace);
                     } else {
-                        text = temp.replace(temp, String.valueOf(createRandom(1, defaultDiceFace.get(id))[0]));
+                        text = text.replaceFirst(temp, String.valueOf(createRandom(1, defaultDiceFace.get(id))[0]));
                     }
-
                 } else {
                     int[] diceRandom = createRandom(1, Integer.valueOf(temp.substring(1)));
-                    text = text.replace(temp, String.valueOf(diceRandom[0]));
+                    text = text.replaceFirst(temp, String.valueOf(diceRandom[0]));
                 }
-
             } else {
                 String[] dataSplitArr = temp.split("[dD]");
                 int diceNumber = Integer.valueOf(dataSplitArr[0]);
@@ -54,13 +53,14 @@ public class RollBasics {
                 int[] randomData = createRandom(diceNumber, diceFace);
                 if (randomData.length > 1) {
                     StringBuilder formula = new StringBuilder();
-                    formula.append(randomData[0]);
+                    formula.append("(").append(randomData[0]);
                     for (int j = 1; j < randomData.length; j++) {
                         formula.append("+").append(randomData[j]);
                     }
-                    text = text.replace(temp, String.valueOf(formula));
+                    formula.append(")");
+                    text = text.replaceFirst(temp, String.valueOf(formula));
                 } else {
-                    text = text.replace(temp, String.valueOf(randomData[0]));
+                    text = text.replaceFirst(temp, String.valueOf(randomData[0]));
                 }
             }
         }

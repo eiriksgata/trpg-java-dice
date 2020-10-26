@@ -32,7 +32,7 @@ public class InstructHandle {
     }
 
     private String trackInstructCases(MessageData data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        Reflections reflections = new Reflections("indi.eiriksgata.dice");
+        Reflections reflections = new Reflections("indi.eiriksgata");
         Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(InstructService.class);
         for (Class clazz : typesAnnotatedWith) {
             Method[] methods = clazz.getDeclaredMethods();

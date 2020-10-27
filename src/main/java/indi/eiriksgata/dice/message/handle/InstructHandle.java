@@ -9,6 +9,8 @@ import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,6 +24,7 @@ public class InstructHandle {
 
     //唯一公开的调用方法
     public String instructCheck(MessageData data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException {
+
         //先行判断是否符合指令样式
         if (data.getMessage().substring(0, 1).equals(".")) {
             //将所有空格舍去
@@ -34,22 +37,40 @@ public class InstructHandle {
     private String trackInstructCases(MessageData data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException {
         Reflections reflections = new Reflections("indi.eiriksgata");
         Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(InstructService.class);
+
+        Method highestPriority = null;
+        Class highestClazz = null;
         for (Class clazz : typesAnnotatedWith) {
             Method[] methods = clazz.getDeclaredMethods();
             for (Method method : methods) {
                 if (method.isAnnotationPresent(InstructReflex.class)) {
-                    InstructReflex instructReflex = method.getAnnotation(InstructReflex.class);
-                    String[] instructArr = instructReflex.value();
-                    for (String temp : instructArr) {
-                        //方法增强检测命令
-                        if (instructMessageCheck(data.getMessage(), temp)) {
-                            data.setMessage(data.getMessage().substring(temp.length()));
-                            return (String) method.invoke(clazz.newInstance(), data);
+                    if (highestPriority == null) {
+                        highestPriority = method;
+                        highestClazz = clazz;
+
+                    } else {
+                        InstructReflex instructReflex = method.getAnnotation(InstructReflex.class);
+                        if (instructReflex.priority() > highestPriority.getAnnotation(InstructReflex.class).priority()) {
+                            highestPriority = method;
+                            highestClazz = clazz;
                         }
                     }
                 }
             }
         }
+
+        if (highestPriority != null) {
+            String[] instructArr = highestPriority.getAnnotation(InstructReflex.class).value();
+
+            for (String temp : instructArr) {
+                //方法增强检测命令
+                if (instructMessageCheck(data.getMessage(), temp)) {
+                    data.setMessage(data.getMessage().substring(temp.length()));
+                    return (String) highestPriority.invoke(highestClazz.newInstance(), data);
+                }
+            }
+        }
+
         throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_NOT_FOUND);
     }
 

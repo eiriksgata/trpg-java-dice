@@ -1,5 +1,6 @@
 package indi.eiriksgata.dice.operation;
 
+import indi.eiriksgata.dice.callback.SanCheckCallback;
 import indi.eiriksgata.dice.config.DiceConfig;
 import indi.eiriksgata.dice.exception.DiceInstructException;
 import indi.eiriksgata.dice.exception.ExceptionEnum;
@@ -9,11 +10,8 @@ import indi.eiriksgata.dice.utlis.RegularExpressionUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -67,6 +65,58 @@ public class RollBasicsImpl {
         return CustomText.getText("coc7.roll", inputFormula, text, new CalcUtil(text).getResult().toString());
     }
 
+
+    public String attributeCheck(String text, String attribute) throws DiceInstructException {
+
+        //检测两种不同的输入方式
+        //输入中携带有数值
+        if (text.matches("[\\u4E00-\\u9FA5A-z]+[0-9]+")) {
+            String attributeName = RegularExpressionUtils.getMatcher("[\\u4E00-\\u9FA5A-z]+", text);
+            String attributeValue = RegularExpressionUtils.getMatcher("[0-9]+", text);
+            return attributeDegree(attributeName, Integer.valueOf(attributeValue));
+        }
+
+        //输入中不携带有数值
+        if (text.matches("[\\u4E00-\\u9FA5A-z]")) {
+            //从attribute中获取
+            String regex = text + "[0-9]+";
+            String selectData = RegularExpressionUtils.getMatcher(regex, attribute);
+            return attributeDegree(text, Integer.valueOf(selectData.substring(text.length())));
+        }
+
+        //指令参数不符合要求
+        throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_PARAMETER_ERR);
+
+    }
+
+
+    private String attributeDegree(String attributeName, int attributeValue) {
+
+        //生成随机数
+        int randomValue = createRandom(1, 100)[0];
+
+
+        return null;
+    }
+
+
+    public String sanCheck(String text, String attribute, SanCheckCallback callback) {
+
+
+        // RegularExpressionUtils.getMatchers("")
+
+
+        callback.getResultData(attribute);
+        return coc7SanCheck();
+    }
+
+
+    private String coc7SanCheck() {
+
+
+        return null;
+
+    }
 
     private int[] createRandom(int diceNumber, int faceNumber) {
         int[] result = new int[diceNumber];

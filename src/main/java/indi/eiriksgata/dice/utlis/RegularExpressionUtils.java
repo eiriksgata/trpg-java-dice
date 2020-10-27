@@ -1,6 +1,8 @@
 package indi.eiriksgata.dice.utlis;
 
 
+import com.sun.istack.internal.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -26,7 +28,7 @@ public class RegularExpressionUtils {
     }
 
 
-    public static String getMatcherString(String regex, String source) {
+    public static String getMatcher(String regex, String source) {
         if (source == null) return null;
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(source);

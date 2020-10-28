@@ -1,5 +1,7 @@
 package indi.eiriksgata.dice.operation;
 
+import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
+
 /**
  * @author: create by Keith
  * @version: v1.0

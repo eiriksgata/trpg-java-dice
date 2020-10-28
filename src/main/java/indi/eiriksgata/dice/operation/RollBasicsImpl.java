@@ -22,8 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  **/
 public class RollBasicsImpl {
 
-    public static String diceGameType = "coc7";
-    public static ConcurrentMap<Long, Integer> defaultDiceFace = new ConcurrentHashMap<>();
+    static ConcurrentMap<Long, Integer> defaultDiceFace = new ConcurrentHashMap<>();
 
     public String rollRandom(String text, Long id) {
         String inputFormula = text;
@@ -92,11 +91,40 @@ public class RollBasicsImpl {
 
     private String attributeDegree(String attributeName, int attributeValue) {
 
-        //生成随机数
-        int randomValue = createRandom(1, 100)[0];
+        //生成随机数 属性确认默认生成百面骰
+        int faceNumber = 100;
+        int randomValue = createRandom(1, faceNumber)[0];
 
 
-        return null;
+        //rule value 暂时按骰子全局配置文件负责 以后可能会以个人用户 或者房间数据来进行
+        int roomRuleValue = Integer.valueOf(DiceConfig.diceSet.getString("coc7.rules"));
+
+        //程度判断
+        if (randomValue <= roomRuleValue) {
+            return CustomText.getText("coc7.attribute.big-success", "D" + faceNumber, randomValue, attributeValue, attributeName);
+        }
+
+        if (randomValue <= attributeValue / 5) {
+            return CustomText.getText("coc7.attribute.ex-success", "D" + faceNumber, randomValue, attributeValue, attributeName);
+        }
+
+        if (randomValue <= attributeValue / 2) {
+            return CustomText.getText("coc7.attribute.dif-success", "D" + faceNumber, randomValue, attributeValue, attributeName);
+        }
+
+        if (randomValue <= attributeValue) {
+            return CustomText.getText("coc7.attribute.success", "D" + faceNumber, randomValue, attributeValue, attributeName);
+        }
+
+        //判断是否为大失败
+        if (randomValue > 100 - roomRuleValue) {
+            return CustomText.getText("coc7.attribute.big-fail", "D" + faceNumber, randomValue, attributeValue, attributeName);
+
+        }
+
+        //剩下的只有失败
+        return CustomText.getText("coc7.attribute.fail", "D" + faceNumber, randomValue, attributeValue, attributeName);
+
     }
 
 

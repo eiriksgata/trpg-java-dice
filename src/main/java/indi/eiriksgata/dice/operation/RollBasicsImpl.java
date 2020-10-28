@@ -76,10 +76,13 @@ public class RollBasicsImpl {
         }
 
         //输入中不携带有数值
-        if (text.matches("[\\u4E00-\\u9FA5A-z]")) {
+        if (text.matches("[\\u4E00-\\u9FA5A-z]+")) {
             //从attribute中获取
             String regex = text + "[0-9]+";
             String selectData = RegularExpressionUtils.getMatcher(regex, attribute);
+            if (selectData == null) {
+                throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_PARAMETER_ERR);
+            }
             return attributeDegree(text, Integer.valueOf(selectData.substring(text.length())));
         }
 

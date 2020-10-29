@@ -32,7 +32,8 @@ public class RollBasicsImpl implements RollBasics {
     @Override
     public String rollRandom(String text, Long id, RollRandomCallback callback) {
         String inputFormula = text;
-        List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]?", text);
+
+        List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]+|[Dd]", text);
         for (String temp : list) {
             if (temp.substring(0, 1).equals("d") ||
                     temp.substring(0, 1).equals("D")) {
@@ -66,7 +67,9 @@ public class RollBasicsImpl implements RollBasics {
                     text = text.replaceFirst(temp, String.valueOf(randomData[0]));
                 }
             }
+
         }
+
         String result = new CalcUtil(text).getResult().toString();
         callback.getFormulaResult(Integer.valueOf(result), text);
         return CustomText.getText("coc7.roll", inputFormula, text, result);

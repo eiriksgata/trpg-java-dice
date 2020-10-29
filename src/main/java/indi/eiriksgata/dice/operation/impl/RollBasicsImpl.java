@@ -1,5 +1,6 @@
 package indi.eiriksgata.dice.operation.impl;
 
+import indi.eiriksgata.dice.callback.RollRandomCallback;
 import indi.eiriksgata.dice.config.DiceConfig;
 import indi.eiriksgata.dice.operation.RollBasics;
 import indi.eiriksgata.dice.reply.CustomText;
@@ -24,6 +25,12 @@ public class RollBasicsImpl implements RollBasics {
 
     @Override
     public String rollRandom(String text, Long id) {
+        return rollRandom(text, id, (value, calProcess) -> {
+        });
+    }
+
+    @Override
+    public String rollRandom(String text, Long id, RollRandomCallback callback) {
         String inputFormula = text;
         List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]?", text);
         for (String temp : list) {
@@ -60,11 +67,11 @@ public class RollBasicsImpl implements RollBasics {
                 }
             }
         }
-        return CustomText.getText("coc7.roll", inputFormula, text, new CalcUtil(text).getResult().toString());
+        String result = new CalcUtil(text).getResult().toString();
+        callback.getFormulaResult(Integer.valueOf(result), text);
+        return CustomText.getText("coc7.roll", inputFormula, text, result);
+
     }
-
-    
-
 
 
     static int[] createRandom(int diceNumber, int faceNumber) {

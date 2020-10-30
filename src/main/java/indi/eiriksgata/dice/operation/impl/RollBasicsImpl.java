@@ -33,7 +33,7 @@ public class RollBasicsImpl implements RollBasics {
     public String rollRandom(String text, Long id, RollRandomCallback callback) {
         String inputFormula = text;
 
-        List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]+|[Dd]", text);
+        List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]+|[0-9]+[Dd]|[Dd]", text);
         for (String temp : list) {
             if (temp.substring(0, 1).equals("d") ||
                     temp.substring(0, 1).equals("D")) {
@@ -43,8 +43,11 @@ public class RollBasicsImpl implements RollBasics {
                         int diceFace = Integer.valueOf(DiceConfig.diceSet.getString(diceType + ".face"));
                         text = text.replaceFirst(temp, String.valueOf(createRandom(1, diceFace)[0]));
                         inputFormula = inputFormula.replaceFirst(temp, "D" + diceFace);
+
                     } else {
                         text = text.replaceFirst(temp, String.valueOf(createRandom(1, defaultDiceFace.get(id))[0]));
+                        inputFormula = inputFormula.replaceFirst(temp, "D" + defaultDiceFace.get(id));
+
                     }
                 } else {
                     int[] diceRandom = createRandom(1, Integer.valueOf(temp.substring(1)));
@@ -52,8 +55,15 @@ public class RollBasicsImpl implements RollBasics {
                 }
             } else {
                 String[] dataSplitArr = temp.split("[dD]");
-                int diceNumber = Integer.valueOf(dataSplitArr[0]);
-                int diceFace = Integer.valueOf(dataSplitArr[1]);
+                int diceNumber = 0;
+                int diceFace = 0;
+                if (dataSplitArr.length == 1) {
+                    diceNumber = Integer.valueOf(dataSplitArr[0]);
+                    diceFace = defaultDiceFace.get(id);
+                } else {
+                    diceNumber = Integer.valueOf(dataSplitArr[0]);
+                    diceFace = Integer.valueOf(dataSplitArr[1]);
+                }
                 int[] randomData = createRandom(diceNumber, diceFace);
                 if (randomData.length > 1) {
                     StringBuilder formula = new StringBuilder();
@@ -67,7 +77,6 @@ public class RollBasicsImpl implements RollBasics {
                     text = text.replaceFirst(temp, String.valueOf(randomData[0]));
                 }
             }
-
         }
 
         String result = new CalcUtil(text).getResult().toString();

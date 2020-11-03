@@ -20,8 +20,8 @@ public interface RollBasics {
         return new AttributeCheckImpl().attributeCheck(text, attribute);
     }
 
-    default void sanCheck(String text, String attribute, SanCheckCallback callback) {
-        new SanCheckImpl().sanCheck(text, attribute, callback);
+    default String sanCheck(String text, String attribute, SanCheckCallback callback) {
+        return new SanCheckImpl().sanCheck(text, attribute, callback);
     }
 
     String rollRandom(String text, Long id, RollRandomCallback callback);

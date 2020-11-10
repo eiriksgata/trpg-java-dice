@@ -4,6 +4,7 @@ import indi.eiriksgata.dice.callback.RollRandomCallback;
 import indi.eiriksgata.dice.callback.SanCheckCallback;
 import indi.eiriksgata.dice.exception.DiceInstructException;
 import indi.eiriksgata.dice.operation.impl.AttributeCheckImpl;
+import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.SanCheckImpl;
 
 /**
@@ -22,6 +23,14 @@ public interface RollBasics {
 
     default String sanCheck(String text, String attribute, SanCheckCallback callback) {
         return new SanCheckImpl().sanCheck(text, attribute, callback);
+    }
+
+    default String rollBonus(String text, String attribute) {
+        return new RollBonusImpl().generate(text, attribute);
+    }
+
+    default String rollPunishment(String text, String attribute){
+        return null;
     }
 
     String rollRandom(String text, Long id, RollRandomCallback callback);

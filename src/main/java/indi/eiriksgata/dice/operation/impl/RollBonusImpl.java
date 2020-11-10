@@ -1,9 +1,14 @@
 package indi.eiriksgata.dice.operation.impl;
 
+import indi.eiriksgata.dice.exception.DiceInstructException;
+import indi.eiriksgata.dice.reply.CustomText;
 import indi.eiriksgata.dice.utlis.RegularExpressionUtils;
-import org.apache.commons.lang3.RandomUtils;
 
+import java.util.Arrays;
 import java.util.List;
+
+import static indi.eiriksgata.dice.operation.impl.RollBasicsImpl.checkText;
+import static indi.eiriksgata.dice.operation.impl.RollBasicsImpl.createRandomArray;
 
 /**
  * author: create by Keith
@@ -13,56 +18,67 @@ import java.util.List;
  **/
 public class RollBonusImpl {
 
-
-    public String generate(String text, String attribute) {
-
-        //满足又是多个奖励骰 并且又给定数值
-        if (text.matches("[0-9]+[\\u4E00-\\u9FA5A-z]+[0-9]+")) {
-            List<String> matchers = RegularExpressionUtils.getMatchers("[0-9]+", text);
-
-
+    private int getBonusData(int checkValue, int[] sortArr) {
+        int resultValue = checkValue;
+        if (checkValue >= 10) {
+            if (sortArr[0] < checkValue / 10) {
+                resultValue = (sortArr[0] * 10) + (checkValue % 10);
+            }
         }
-
-        //给定的奖励骰数量
-        if (text.matches("[0-9]+[\\u4E00-\\u9FA5A-z]+")) {
-
-        } else {
-
-
-        }
-
-        return null;
-
+        return resultValue;
     }
 
-
-    public void randomHandle(int bonusNumber, int checkValue) {
-
-        int randomCheckNumber = RandomUtils.nextInt(1, 101);
-        int resultValue = 0;
-        int[] randomArr = new int[bonusNumber];
-        int[] sortArr = new int[bonusNumber];
-        for (int i = 0; i < bonusNumber; i++) {
-            randomArr[i] = RandomUtils.nextInt(0, 10);
-            sortArr[i] = randomArr[i];
+    private void getResultText(int diceNumber, String[] resultText, String attributeName, int attributeValue) {
+        try {
+            createRandomArray(diceNumber, (checkValue, sortArr, randomArr) -> {
+                int resultValue = getBonusData(checkValue, sortArr);
+                resultText[0] = CustomText.getText("coc7.bonus", attributeName, diceNumber, checkValue, Arrays.toString(randomArr), resultValue,
+                        attributeValue, checkText(resultValue, attributeValue));
+            });
+        } catch (DiceInstructException e) {
+            resultText[0] = e.getErrMsg();
         }
-        for (int i = 0; i < bonusNumber; i++) {
-            for (int j = 0; j < bonusNumber; j++) {
-                if (sortArr[i] < sortArr[j]) {
-                    int temp = sortArr[i];
-                    sortArr[i] = sortArr[j];
-                    sortArr[j] = temp;
-                }
-            }
-        }
-        resultValue = randomCheckNumber;
-        if (randomCheckNumber >= 10) {
-            if (sortArr[0] < randomCheckNumber / 10) {
-                resultValue = (sortArr[0] * 10) + (randomCheckNumber % 10);
-            }
+    }
+
+    public String generate(String text, String attribute) {
+        final String[] resultText = new String[1];
+        List<String> matchers = RegularExpressionUtils.getMatchers("[0-9]+", text);
+        //满足又是多个奖励骰又有属性值
+        if (matchers.size() >= 2) {
+            int diceNumber = Integer.valueOf(matchers.get(0));
+            int attributeValue = Integer.valueOf(matchers.get(1));
+            String attributeName = text.substring(matchers.get(0).length(), text.length() - matchers.get(1).length());
+            getResultText(diceNumber, resultText, attributeName, attributeValue);
+            return resultText[0];
         }
 
-        
+        //默认1个奖励骰 前面没有数据 后面有
+        if (text.matches("[\\u4E00-\\u9FA5A-z]+[0-9]+")) {
+            int diceNumber = 1;
+            int attributeValue = Integer.valueOf(matchers.get(0));
+            String attributeName = text.substring(matchers.get(0).length());
+            getResultText(diceNumber, resultText, attributeName, attributeValue);
+            return resultText[0];
+        }
+
+        //无给定数值系列
+        //检测录入属性中是否有该属性的数值
+        String attributeName = text.substring(matchers.get(0).length());
+        if (!attribute.matches(attributeName)) {
+            return CustomText.getText("dice.attribute.error");
+        }
+
+        int attributeValue = Integer.valueOf(RegularExpressionUtils.getMatcher(attributeName + "[0-9]+", attribute).substring(attribute.length()));
+        int diceNumber;
+        //给定奖励骰数
+        if (text.matches("[0-9]+[\\u4E00-\\u9FA5A-z]+")) {
+            diceNumber = Integer.valueOf(matchers.get(0));
+        } else {
+            diceNumber = 1;
+        }
+        getResultText(diceNumber, resultText, attributeName, attributeValue);
+        return resultText[0];
+
     }
 
 

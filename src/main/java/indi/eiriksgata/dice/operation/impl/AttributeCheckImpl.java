@@ -6,12 +6,6 @@ import indi.eiriksgata.dice.exception.ExceptionEnum;
 import indi.eiriksgata.dice.reply.CustomText;
 import indi.eiriksgata.dice.utlis.RegularExpressionUtils;
 
-/**
- * @author: create by Keith
- * @version: v1.0
- * @description: indi.eiriksgata.dice.operation.impl
- * @date:2020/10/28
- **/
 public class AttributeCheckImpl {
 
 

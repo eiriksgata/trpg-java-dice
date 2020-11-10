@@ -11,6 +11,7 @@ public enum ExceptionEnum {
     DICE_INSTRUCT_PARAMETER_ERR(10003, "Dice instruct format error."),
     DICE_SET_FACE_MAX_ERR(10004, "Dice set face number maximum exceeded."),
     DICE_SET_FACE_MIN_ERR(10005, "Dice set face number less than minimum"),
+    DICE_NUMBER_OUT_BOUNDS_ERR(10006,"Dice number out bounds"),
 
 
     // system predefine

@@ -2,6 +2,8 @@ package indi.eiriksgata.dice.operation.impl;
 
 import indi.eiriksgata.dice.callback.RollRandomCallback;
 import indi.eiriksgata.dice.config.DiceConfig;
+import indi.eiriksgata.dice.exception.DiceInstructException;
+import indi.eiriksgata.dice.exception.ExceptionEnum;
 import indi.eiriksgata.dice.operation.RollBasics;
 import indi.eiriksgata.dice.reply.CustomText;
 import indi.eiriksgata.dice.utlis.CalcUtil;
@@ -13,12 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 
-/**
- * @author: create by Keith
- * @version: v1.0
- * @description: indi.eiriksgata.dice.operation
- * @date:2020/10/13
- **/
 public class RollBasicsImpl implements RollBasics {
 
     public static ConcurrentMap<Long, Integer> defaultDiceFace = new ConcurrentHashMap<>();
@@ -54,8 +50,8 @@ public class RollBasicsImpl implements RollBasics {
                 }
             } else {
                 String[] dataSplitArr = temp.split("[dD]");
-                int diceNumber = 0;
-                int diceFace = 0;
+                int diceNumber;
+                int diceFace;
                 if (dataSplitArr.length == 1) {
                     diceNumber = Integer.valueOf(dataSplitArr[0]);
                     diceFace = defaultDiceFace.get(id);
@@ -93,7 +89,6 @@ public class RollBasicsImpl implements RollBasics {
         return result;
     }
 
-
     static String checkText(int randomValue, int attributeValue) {
         int roomRuleValue = Integer.valueOf(DiceConfig.diceSet.getString("coc7.rules"));
 
@@ -123,9 +118,12 @@ public class RollBasicsImpl implements RollBasics {
     }
 
 
-    static void createRandomArray(int bonusNumber, RollArrayCallback callback) {
+    static void createRandomArray(int bonusNumber, RollArrayCallback callback) throws DiceInstructException {
+        if (bonusNumber > Integer.valueOf(DiceConfig.diceSet.getString("dice.number.max"))
+                || bonusNumber < Integer.valueOf(DiceConfig.diceSet.getString("dice.number.min"))) {
+            throw new DiceInstructException(ExceptionEnum.DICE_NUMBER_OUT_BOUNDS_ERR);
+        }
         int randomCheckNumber = RandomUtils.nextInt(1, 101);
-        int resultValue = 0;
         int[] randomArr = new int[bonusNumber];
         int[] sortArr = new int[bonusNumber];
         for (int i = 0; i < bonusNumber; i++) {
@@ -141,13 +139,7 @@ public class RollBasicsImpl implements RollBasics {
                 }
             }
         }
-        resultValue = randomCheckNumber;
-        if (randomCheckNumber >= 10) {
-            if (sortArr[0] < randomCheckNumber / 10) {
-                resultValue = (sortArr[0] * 10) + (randomCheckNumber % 10);
-            }
-        }
-        callback.getResultData(randomCheckNumber, resultValue, randomArr);
+        callback.getResultData(randomCheckNumber, sortArr, randomArr);
     }
 
 

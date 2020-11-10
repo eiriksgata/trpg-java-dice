@@ -32,7 +32,6 @@ public class RollBasicsImpl implements RollBasics {
     @Override
     public String rollRandom(String text, Long id, RollRandomCallback callback) {
         String inputFormula = text;
-
         List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]+|[0-9]+[Dd]|[Dd]", text);
         for (String temp : list) {
             if (temp.substring(0, 1).equals("d") ||
@@ -92,6 +91,63 @@ public class RollBasicsImpl implements RollBasics {
             result[i] = RandomUtils.nextInt(1, faceNumber + 1);
         }
         return result;
+    }
+
+
+    static String checkText(int randomValue, int attributeValue) {
+        int roomRuleValue = Integer.valueOf(DiceConfig.diceSet.getString("coc7.rules"));
+
+        //程度判断
+        if (randomValue <= roomRuleValue) {
+            return CustomText.getText("text.big-success");
+        }
+
+        if (randomValue <= attributeValue / 5) {
+            return CustomText.getText("text.ex-success");
+        }
+
+        if (randomValue <= attributeValue / 2) {
+            return CustomText.getText("text.dif-success");
+        }
+
+        if (randomValue <= attributeValue) {
+            return CustomText.getText("text.success");
+        }
+
+        //判断是否为大失败
+        if (randomValue > 100 - roomRuleValue) {
+            return CustomText.getText("text.big-fail");
+        }
+
+        return CustomText.getText("text.fail");
+    }
+
+
+    static void createRandomArray(int bonusNumber, RollArrayCallback callback) {
+        int randomCheckNumber = RandomUtils.nextInt(1, 101);
+        int resultValue = 0;
+        int[] randomArr = new int[bonusNumber];
+        int[] sortArr = new int[bonusNumber];
+        for (int i = 0; i < bonusNumber; i++) {
+            randomArr[i] = RandomUtils.nextInt(0, 10);
+            sortArr[i] = randomArr[i];
+        }
+        for (int i = 0; i < bonusNumber; i++) {
+            for (int j = 0; j < bonusNumber; j++) {
+                if (sortArr[i] < sortArr[j]) {
+                    int temp = sortArr[i];
+                    sortArr[i] = sortArr[j];
+                    sortArr[j] = temp;
+                }
+            }
+        }
+        resultValue = randomCheckNumber;
+        if (randomCheckNumber >= 10) {
+            if (sortArr[0] < randomCheckNumber / 10) {
+                resultValue = (sortArr[0] * 10) + (randomCheckNumber % 10);
+            }
+        }
+        callback.getResultData(randomCheckNumber, resultValue, randomArr);
     }
 
 

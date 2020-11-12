@@ -25,12 +25,8 @@ public interface RollBasics {
         return new SanCheckImpl().sanCheck(text, attribute, callback);
     }
 
-    default String rollBonus(String text, String attribute) {
-        return new RollBonusImpl().generate(text, attribute);
-    }
-
-    default String rollPunishment(String text, String attribute){
-        return null;
+    default String rollBonus(String text, String attribute, boolean isBonus) {
+        return new RollBonusImpl().generate(text, attribute, isBonus);
     }
 
     String rollRandom(String text, Long id, RollRandomCallback callback);

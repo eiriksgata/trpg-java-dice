@@ -87,7 +87,7 @@ public class RollBonusImpl {
         if (text.matches("[0-9]+[\\u4E00-\\u9FA5A-z]+")) {
             diceNumber = Integer.valueOf(matchers.get(0));
             String attributeName = text.substring(matchers.get(0).length());
-            int attributeValue = Integer.valueOf(RegularExpressionUtils.getMatcher(attributeName + "[0-9]+", attribute).substring(attribute.length()));
+            int attributeValue = Integer.valueOf(RegularExpressionUtils.getMatcher(attributeName + "[0-9]+", attribute).substring(attributeName.length()));
             getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
         } else {
             diceNumber = 1;

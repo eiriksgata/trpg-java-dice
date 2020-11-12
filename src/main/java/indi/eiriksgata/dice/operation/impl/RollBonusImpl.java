@@ -28,10 +28,29 @@ public class RollBonusImpl {
         return resultValue;
     }
 
-    private void getResultText(int diceNumber, String[] resultText, String attributeName, int attributeValue) {
+    private int getPunishmentData(int checkValue, int[] sortArr) {
+        int resultValue = checkValue;
+        if (checkValue < 10) {
+            resultValue = (sortArr[sortArr.length - 1] * 10) + checkValue;
+        } else {
+            if (sortArr[sortArr.length - 1] > checkValue / 10) {
+                resultValue = (sortArr[sortArr.length - 1] * 10) + (checkValue % 10);
+            }
+        }
+        return resultValue;
+
+    }
+
+    private void getResultText(int diceNumber, String[] resultText, String attributeName, int attributeValue, boolean isBonus) {
         try {
             createRandomArray(diceNumber, (checkValue, sortArr, randomArr) -> {
-                int resultValue = getBonusData(checkValue, sortArr);
+
+                int resultValue;
+                if (isBonus) {
+                    resultValue = getBonusData(checkValue, sortArr);
+                } else {
+                    resultValue = getPunishmentData(checkValue, sortArr);
+                }
                 resultText[0] = CustomText.getText("coc7.bonus", attributeName, diceNumber, checkValue, Arrays.toString(randomArr), resultValue,
                         attributeValue, checkText(resultValue, attributeValue));
             });
@@ -40,7 +59,7 @@ public class RollBonusImpl {
         }
     }
 
-    public String generate(String text, String attribute) {
+    public String generate(String text, String attribute, boolean isBonus) {
         final String[] resultText = new String[1];
         List<String> matchers = RegularExpressionUtils.getMatchers("[0-9]+", text);
         //满足又是多个奖励骰又有属性值
@@ -48,7 +67,7 @@ public class RollBonusImpl {
             int diceNumber = Integer.valueOf(matchers.get(0));
             int attributeValue = Integer.valueOf(matchers.get(1));
             String attributeName = text.substring(matchers.get(0).length(), text.length() - matchers.get(1).length());
-            getResultText(diceNumber, resultText, attributeName, attributeValue);
+            getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
             return resultText[0];
         }
 
@@ -57,7 +76,7 @@ public class RollBonusImpl {
             int diceNumber = 1;
             int attributeValue = Integer.valueOf(matchers.get(0));
             String attributeName = text.substring(matchers.get(0).length());
-            getResultText(diceNumber, resultText, attributeName, attributeValue);
+            getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
             return resultText[0];
         }
 
@@ -76,7 +95,7 @@ public class RollBonusImpl {
         } else {
             diceNumber = 1;
         }
-        getResultText(diceNumber, resultText, attributeName, attributeValue);
+        getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
         return resultText[0];
 
     }

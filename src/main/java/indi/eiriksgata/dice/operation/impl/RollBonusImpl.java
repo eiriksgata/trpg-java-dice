@@ -48,11 +48,14 @@ public class RollBonusImpl {
                 int resultValue;
                 if (isBonus) {
                     resultValue = getBonusData(checkValue, sortArr);
+                    resultText[0] = CustomText.getText("coc7.bonus", attributeName, diceNumber, checkValue, Arrays.toString(randomArr), resultValue,
+                            attributeValue, checkText(resultValue, attributeValue));
                 } else {
                     resultValue = getPunishmentData(checkValue, sortArr);
+                    resultText[0] = CustomText.getText("coc7.punishment", attributeName, diceNumber, checkValue, Arrays.toString(randomArr), resultValue,
+                            attributeValue, checkText(resultValue, attributeValue));
                 }
-                resultText[0] = CustomText.getText("coc7.bonus", attributeName, diceNumber, checkValue, Arrays.toString(randomArr), resultValue,
-                        attributeValue, checkText(resultValue, attributeValue));
+
             });
         } catch (DiceInstructException e) {
             resultText[0] = e.getErrMsg();
@@ -75,27 +78,26 @@ public class RollBonusImpl {
         if (text.matches("[\\u4E00-\\u9FA5A-z]+[0-9]+")) {
             int diceNumber = 1;
             int attributeValue = Integer.valueOf(matchers.get(0));
-            String attributeName = text.substring(matchers.get(0).length());
+            String attributeName = text.substring(0, text.length() - matchers.get(0).length());
             getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
             return resultText[0];
         }
 
-        //无给定数值系列
-        //检测录入属性中是否有该属性的数值
-        String attributeName = text.substring(matchers.get(0).length());
-        if (attribute == null || !attribute.matches(attributeName)) {
-            return CustomText.getText("dice.attribute.error");
-        }
-
-        int attributeValue = Integer.valueOf(RegularExpressionUtils.getMatcher(attributeName + "[0-9]+", attribute).substring(attribute.length()));
         int diceNumber;
-        //给定奖励骰数
         if (text.matches("[0-9]+[\\u4E00-\\u9FA5A-z]+")) {
             diceNumber = Integer.valueOf(matchers.get(0));
+            String attributeName = text.substring(matchers.get(0).length());
+            int attributeValue = Integer.valueOf(RegularExpressionUtils.getMatcher(attributeName + "[0-9]+", attribute).substring(attribute.length()));
+            getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
         } else {
             diceNumber = 1;
+            if (attribute == null || !attribute.contains(text)) {
+                return CustomText.getText("dice.attribute.error");
+            }
+            int attributeValue = Integer.valueOf(RegularExpressionUtils.getMatcher(text + "[0-9]+", attribute).substring(text.length()));
+            getResultText(diceNumber, resultText, text, attributeValue, isBonus);
         }
-        getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
+
         return resultText[0];
 
     }

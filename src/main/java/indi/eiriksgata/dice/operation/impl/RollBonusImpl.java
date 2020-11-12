@@ -83,7 +83,7 @@ public class RollBonusImpl {
         //无给定数值系列
         //检测录入属性中是否有该属性的数值
         String attributeName = text.substring(matchers.get(0).length());
-        if (!attribute.matches(attributeName)) {
+        if (attribute == null || !attribute.matches(attributeName)) {
             return CustomText.getText("dice.attribute.error");
         }
 

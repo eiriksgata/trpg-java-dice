@@ -3,7 +3,6 @@ package indi.eiriksgata.dice.reply;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author: create by Keith
@@ -15,7 +14,6 @@ import java.util.concurrent.ConcurrentMap;
 public class CustomText {
 
     private static ResourceBundle outTextConfig = ResourceBundle.getBundle("custom-text");
-    private static String defaultGameType = "coc7";
 
     public static String getText(String key, Object... value) {
         return MessageFormat.format(new String(

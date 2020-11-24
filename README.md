@@ -10,6 +10,29 @@
 - 目前作者开发的定义版本为 DND5e 、 COC7版。
 - 该项目将会和 `mirai-rulateday-dice`同步更新。
 
+## 快速使用
+
+**Maven**
+
+Step 1. Add the JitPack repository to your build file
+```
+<repositories>
+	<repository>
+		   <id>jitpack.io</id>
+		   <url>https://www.jitpack.io</url>
+	</repository>
+</repositories>
+```
+Step 2. Add the dependency
+```
+<dependency>
+	 <groupId>com.github.Eiriksgata</groupId>
+	 <artifactId>trpg-java-dice</artifactId>
+	 <version>1.0.0-alpha</version>
+</dependency>
+```
+- 其他的引入方式参考:[jitpack/Eiriksgata/trpg-java-dice](https://www.jitpack.io/#Eiriksgata/trpg-java-dice/1.0.0-alpha)
+
 **开发模块划分**
 * 指令识别
 * 骰子运算核心

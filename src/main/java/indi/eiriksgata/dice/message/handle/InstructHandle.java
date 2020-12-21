@@ -9,6 +9,7 @@ import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
@@ -17,10 +18,10 @@ import java.util.Set;
  * @description: indi.eiriksgata.dice.message.handle
  * @date:2020/10/15
  **/
-
 public class InstructHandle {
 
-    private static Reflections reflections = new Reflections("indi.eiriksgata");
+    private static ResourceBundle sanPath = ResourceBundle.getBundle("trpg-dice-config");
+    private static Reflections reflections = new Reflections(sanPath.getString("reflections.scan.path"));
 
     //唯一公开的调用方法
     public String instructCheck(MessageData data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException {

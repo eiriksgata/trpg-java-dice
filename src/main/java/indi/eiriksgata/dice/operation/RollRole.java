@@ -8,7 +8,6 @@ package indi.eiriksgata.dice.operation;
  **/
 public interface RollRole {
 
-
     String createCocRole(int number);
 
     String createDndRole(int number);

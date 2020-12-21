@@ -9,6 +9,7 @@
 - 该骰子的开发设定主要是目前两大跑团体系：DND 、 COC。
 - 目前作者开发的定义版本为 DND5e 、 COC7版。
 - 该项目将会和 `mirai-rulateday-dice`同步更新。
+- 如果你有什么疑问或者讨论方案，可以选择在在[discussions](https://github.com/Eiriksgata/mirai-rulateday-dice/discussions)进行
 
 ## 快速使用
 

@@ -28,10 +28,10 @@ Step 2. Add the dependency
 <dependency>
 	 <groupId>com.github.Eiriksgata</groupId>
 	 <artifactId>trpg-java-dice</artifactId>
-	 <version>1.0.0-alpha</version>
+	 <version>1.1.0-alpha</version>
 </dependency>
 ```
-- 其他的引入方式参考:[jitpack/Eiriksgata/trpg-java-dice](https://www.jitpack.io/#Eiriksgata/trpg-java-dice/1.0.0-alpha)
+- 其他的引入方式参考:[jitpack/Eiriksgata/trpg-java-dice](https://www.jitpack.io/#Eiriksgata/trpg-java-dice/1.1.0-alpha)
 
 **开发模块划分**
 * 指令识别

@@ -29,10 +29,27 @@ Step 2. Add the dependency
 <dependency>
 	 <groupId>com.github.Eiriksgata</groupId>
 	 <artifactId>trpg-java-dice</artifactId>
-	 <version>1.1.0-alpha</version>
+	 <version>1.1.1-alpha</version>
 </dependency>
 ```
 - 其他的引入方式参考:[jitpack/Eiriksgata/trpg-java-dice](https://www.jitpack.io/#Eiriksgata/trpg-java-dice/1.1.0-alpha)
+
+- 引用后需要在当前项目的Resources 资源路径下新建一个配置文件，该文件用于配置反射扫描包路径，具体参考**配置文件说明**
+
+**配置文件说明**
+- 如果引用该依赖，需要在资源项目中加入以下配置文件（例如Spring架构或者mybatis那样）
+配置文件名
+**trpg-dice-config.properties**
+
+```properties
+## trpg-java-dice Config
+reflections.scan.path=indi.eiriksgata
+```
+
+indi.eiriksgata 为你在项目中使用的@InstructService | @InstructReflex 类的包路径（类似于Mybatis Mapper 的包扫描，此操作仅是加快处理反应速度。越具体越快速）
+
+具体使用请参考 (Mirai-Rualteday-Dice)[https://github.com/Eiriksgata/mirai-rulateday-dice]项目
+
 
 **开发模块划分**
 * 指令识别

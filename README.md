@@ -16,7 +16,7 @@
 **Maven**
 
 Step 1. Add the JitPack repository to your build file
-```
+```XML
 <repositories>
 	<repository>
 		   <id>jitpack.io</id>
@@ -25,7 +25,7 @@ Step 1. Add the JitPack repository to your build file
 </repositories>
 ```
 Step 2. Add the dependency
-```
+```XML
 <dependency>
 	 <groupId>com.github.Eiriksgata</groupId>
 	 <artifactId>trpg-java-dice</artifactId>
@@ -39,6 +39,7 @@ Step 2. Add the dependency
 **配置文件说明**
 - 如果引用该依赖，需要在资源项目中加入以下配置文件（例如Spring架构或者mybatis那样）
 配置文件名
+
 **trpg-dice-config.properties**
 
 ```properties
@@ -48,7 +49,7 @@ reflections.scan.path=indi.eiriksgata
 
 indi.eiriksgata 为你在项目中使用的@InstructService | @InstructReflex 类的包路径（类似于Mybatis Mapper 的包扫描，此操作仅是加快处理反应速度。越具体越快速）
 
-具体使用请参考 (Mirai-Rualteday-Dice)[https://github.com/Eiriksgata/mirai-rulateday-dice]项目
+具体使用请参考 [Mirai-Rualteday-Dice](https://github.com/Eiriksgata/mirai-rulateday-dice) 项目
 
 
 **开发模块划分**

@@ -9,9 +9,10 @@ import lombok.Data;
  * @date:2020/10/20
  **/
 @Data
-public class MessageData {
+public class MessageData<T> {
 
     private String message;
     private Long qqID;
+    private T event;
 
 }

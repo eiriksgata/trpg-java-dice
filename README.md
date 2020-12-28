@@ -29,10 +29,10 @@ Step 2. Add the dependency
 <dependency>
 	 <groupId>com.github.Eiriksgata</groupId>
 	 <artifactId>trpg-java-dice</artifactId>
-	 <version>1.1.1-alpha</version>
+	 <version>TAG</version> <!-- 请使用最新版 -->
 </dependency>
 ```
-- 其他的引入方式参考:[jitpack/Eiriksgata/trpg-java-dice](https://www.jitpack.io/#Eiriksgata/trpg-java-dice/1.1.0-alpha)
+- 引入方式参考:[jitpack/Eiriksgata/trpg-java-dice](https://www.jitpack.io/#Eiriksgata/trpg-java-dice/1.1.2-alpha)
 
 - 引用后需要在当前项目的Resources 资源路径下新建一个配置文件，该文件用于配置反射扫描包路径，具体参考**配置文件说明**
 

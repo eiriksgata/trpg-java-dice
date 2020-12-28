@@ -54,7 +54,14 @@ public class RollBasicsImpl implements RollBasics {
                 int diceFace;
                 if (dataSplitArr.length == 1) {
                     diceNumber = Integer.valueOf(dataSplitArr[0]);
-                    diceFace = defaultDiceFace.get(id);
+                    if (defaultDiceFace.get(id) == null) {
+                        String diceType = DiceConfig.diceSet.getString("dice.type");
+                        diceFace = Integer.valueOf(DiceConfig.diceSet.getString(diceType + ".face"));
+
+                        //diceFace = 100;
+                    } else {
+                        diceFace = defaultDiceFace.get(id);
+                    }
                 } else {
                     diceNumber = Integer.valueOf(dataSplitArr[0]);
                     diceFace = Integer.valueOf(dataSplitArr[1]);

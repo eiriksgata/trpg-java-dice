@@ -1,11 +1,10 @@
-import indi.eiriksgata.dice.callback.SanCheckCallback;
-import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
+
+import indi.eiriksgata.dice.exception.DiceInstructException;
+import indi.eiriksgata.dice.operation.impl.AttributeCheckImpl;
 import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.RollRoleImpl;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 
 /**
  * @author: create by Keith
@@ -21,6 +20,19 @@ public class DiceTest {
         String[] resultArr = text.split("d");
         System.out.println(resultArr.length);
         System.out.println(resultArr[0]);
+
+    }
+
+    @Test
+    void randAttribute() {
+        try {
+            String result = new AttributeCheckImpl().attributeCheck("侦察50", "");
+
+            System.out.println(result);
+        } catch (DiceInstructException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

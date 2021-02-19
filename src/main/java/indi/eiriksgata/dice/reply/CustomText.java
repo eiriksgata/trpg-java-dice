@@ -17,12 +17,9 @@ public class CustomText {
 
     public static String getText(String key, Object... value) {
         return MessageFormat.format(new String(
-                outTextConfig
-                        .getString(key)
-                        .getBytes(StandardCharsets.ISO_8859_1),
-                StandardCharsets.UTF_8), value);
+                outTextConfig.getString(key)
+                        .getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8), value);
     }
-
 
 
 

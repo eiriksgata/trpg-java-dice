@@ -1,7 +1,9 @@
 package indi.eiriksgata.dice.reply;
 
+
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
@@ -13,14 +15,20 @@ import java.util.ResourceBundle;
 
 public class CustomText {
 
-    private static ResourceBundle outTextConfig = ResourceBundle.getBundle("custom-text");
-
     public static String getText(String key, Object... value) {
-        return MessageFormat.format(new String(
-                outTextConfig.getString(key)
-                        .getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8), value);
+        ResourceBundle customText;
+        try {
+            customText = ResourceBundle.getBundle("custom-text");
+            return MessageFormat.format(new String(
+                    customText.getString(key)
+                            .getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8), value);
+        } catch (MissingResourceException e) {
+            customText = ResourceBundle.getBundle("default-text");
+            return MessageFormat.format(new String(
+                    customText.getString(key)
+                            .getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8), value);
+        }
     }
-
 
 
 }

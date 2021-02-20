@@ -19,7 +19,7 @@ public class DiceTest {
         String text = "3d";
         String[] resultArr = text.split("d");
         System.out.println(resultArr.length);
-        System.out.println(resultArr[0]);
+        System.out.println(resultArr[4]);
 
     }
 

@@ -96,7 +96,8 @@ indi.eiriksgata 为你在项目中使用的@InstructService | @InstructReflex �
 
 ## 配置文件说明
 **在该项目中包含了多个配置文件，其中涉及骰子的默认设置，以及自定义返回文本的配置项、国际化文件等**
-* **custom-text.properties** 自定义返回文本配置文件，用户可以根据默认的文本内容进行参考。
+* **custom-text.properties** 自定义返回文本配置文件，用户可以根据默认的文本内容进行参考。系统的返回文本会优先检测该配置文件的词条，如果没有则按默认的文本配置文件返回。
+* **default-text.properties** 默认的文本返回配置文件，如果用户没有使用自定义文本，则使用该配置文件。
 * **dice-config.properties** 骰子系统的默认数值配置文件，其中包含了骰子默认类型、骰子个数最大最小值、骰子面数最大最小值、骰子系统的默认语言、coc7规则界限等。
 * **rulebook.coc.properties** coc规则书的文本内容（暂时保留）
 * **rulebook-dnd.properties** dnd规则书文本内容（暂时保留）

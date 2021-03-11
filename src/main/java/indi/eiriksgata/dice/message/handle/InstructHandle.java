@@ -20,8 +20,8 @@ import java.util.Set;
  **/
 public class InstructHandle {
 
-    private static ResourceBundle sanPath = ResourceBundle.getBundle("trpg-dice-config");
-    private static Reflections reflections = new Reflections(sanPath.getString("reflections.scan.path"));
+    private static ResourceBundle scanPath = ResourceBundle.getBundle("trpg-dice-config");
+    private static Reflections reflections = new Reflections(scanPath.getString("reflections.scan.path"));
 
     //唯一公开的调用方法
     public String instructCheck(MessageData data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException {

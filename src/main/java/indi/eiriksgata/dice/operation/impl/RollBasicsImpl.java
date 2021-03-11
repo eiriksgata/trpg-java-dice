@@ -11,13 +11,20 @@ import indi.eiriksgata.dice.utlis.RegularExpressionUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
 
 public class RollBasicsImpl implements RollBasics {
 
     public static ConcurrentMap<Long, Integer> defaultDiceFace = new ConcurrentHashMap<>();
+
+    @Override
+    public String todayRandom(long id, int zone) {
+        long timestamp = (System.currentTimeMillis() + (1000 * 60 * 60 * zone)) / (1000 * 60 * 60 * 24);
+        int result = new Random(timestamp % id).nextInt(100);
+        return CustomText.getText("dice.jrrp.success", result);
+    }
 
     @Override
     public String rollRandom(String text, Long id) {
@@ -87,7 +94,6 @@ public class RollBasicsImpl implements RollBasics {
 
     }
 
-
     static int[] createRandom(int diceNumber, int faceNumber) {
         int[] result = new int[diceNumber];
         for (int i = 0; i < diceNumber; i++) {
@@ -123,7 +129,6 @@ public class RollBasicsImpl implements RollBasics {
 
         return CustomText.getText("text.fail");
     }
-
 
     static void createRandomArray(int bonusNumber, RollArrayCallback callback) throws DiceInstructException {
         if (bonusNumber > Integer.valueOf(DiceConfig.diceSet.getString("dice.number.max"))

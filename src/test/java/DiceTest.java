@@ -1,9 +1,12 @@
 
 import indi.eiriksgata.dice.exception.DiceInstructException;
 import indi.eiriksgata.dice.operation.impl.AttributeCheckImpl;
+import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
 import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.RollRoleImpl;
 import org.junit.jupiter.api.Test;
+
+import java.util.Random;
 
 
 /**
@@ -58,6 +61,13 @@ public class DiceTest {
     void createRole() {
         System.out.println(new RollRoleImpl().createCocRole(5));
         System.out.println(new RollRoleImpl().createDndRole(5));
+
+    }
+
+    @Test
+    void jrrpTest() {
+        System.out.println(new RollBasicsImpl().todayRandom(2353686862L, 8));
+
 
     }
 

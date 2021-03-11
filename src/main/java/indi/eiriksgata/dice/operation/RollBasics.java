@@ -30,4 +30,6 @@ public interface RollBasics {
     }
 
     String rollRandom(String text, Long id, RollRandomCallback callback);
+
+    String todayRandom(long id, int zone);
 }

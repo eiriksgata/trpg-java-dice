@@ -22,7 +22,7 @@ public class RollBasicsImpl implements RollBasics {
     @Override
     public String todayRandom(long id, int zone) {
         long timestamp = (System.currentTimeMillis() + (1000 * 60 * 60 * zone)) / (1000 * 60 * 60 * 24);
-        int result = new Random(timestamp % id).nextInt(100);
+        int result = new Random(timestamp + id).nextInt(100);
         return CustomText.getText("dice.jrrp.success", result);
     }
 

@@ -15,6 +15,10 @@ public class CalcUtil {
 
     // 构造器，把公式传进去，比如： 100 + 20 * 5 + (1 + 2)
     public CalcUtil(String val) {
+        val = val.replaceAll("[＋➕]", "+");
+        val = val.replaceAll("[－➖]", "-");
+        val = val.replaceAll("[×xX✖]", "*");
+        val = val.replaceAll("[÷➗]", "/");
         this.val = val.toCharArray();
         len = this.val.length;
         inx = 0;
@@ -27,7 +31,7 @@ public class CalcUtil {
 
     private BigDecimal nextValue(BigDecimal param1, char operator) {
         if (inx < len) {
-            if (operator == ')') {
+            if (operator == ')' || operator == '）') {
                 return param1;
             }
 
@@ -44,14 +48,10 @@ public class CalcUtil {
 
     // 获取下一个参数
     private BigDecimal nextParam() {
-
         char[] param = new char[len - inx + 1];
-
         int paramInx = 0;
-
         while (inx < len) {
-
-            if (val[inx] == '-') {
+            if (val[inx] == '-' || val[inx] == '➖' || val[inx] == '－') {
                 if (paramInx == 0) {
                     param[paramInx++] = val[inx];
                     param[paramInx++] = '0';
@@ -67,10 +67,8 @@ public class CalcUtil {
             } else if (((int) val[inx] >= 41 && (int) val[inx] <= 43) || (int) val[inx] == 47) {
                 break;
             }
-
             inx++;
         }
-
         return paramInx > 0 ? new BigDecimal(param, 0, paramInx) : BigDecimal.ZERO;
     }
 

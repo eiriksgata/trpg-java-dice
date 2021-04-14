@@ -4,6 +4,7 @@ import indi.eiriksgata.dice.operation.impl.AttributeCheckImpl;
 import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
 import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.RollRoleImpl;
+import indi.eiriksgata.dice.utlis.CalcUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -67,9 +68,18 @@ public class DiceTest {
     @Test
     void jrrpTest() {
         System.out.println(new RollBasicsImpl().todayRandom(2353686862L, 8));
-
-
     }
 
+    @Test
+    void roll() {
+        String result = new RollBasicsImpl().rollRandom("1D6＋1d4", 233686862L);
+        System.out.println(result);
+    }
+
+    @Test
+    void calcUtil() {
+        String result = new CalcUtil("1＋3").getResult().toString();
+        System.out.println(result);
+    }
 
 }

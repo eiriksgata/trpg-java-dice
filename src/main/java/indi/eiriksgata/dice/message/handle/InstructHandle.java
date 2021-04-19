@@ -25,6 +25,10 @@ public class InstructHandle {
 
     //唯一公开的调用方法
     public String instructCheck(MessageData data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        //应当先判断传入的字符串长度和对象属性
+        if (data.getMessage() == null || data.getMessage().length() < 1) {
+            return trackInstructCases(data);
+        }
 
         //先行判断是否符合指令样式
         if (data.getMessage().substring(0, 1).equals(".") || data.getMessage().substring(0, 1).equals("。")) {

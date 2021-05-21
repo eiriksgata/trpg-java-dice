@@ -4,10 +4,7 @@ import indi.eiriksgata.dice.operation.impl.AttributeCheckImpl;
 import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
 import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.RollRoleImpl;
-import indi.eiriksgata.dice.utlis.CalcUtil;
 import org.junit.jupiter.api.Test;
-
-import java.util.Random;
 
 
 /**
@@ -36,8 +33,6 @@ public class DiceTest {
         } catch (DiceInstructException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
@@ -78,8 +73,6 @@ public class DiceTest {
 
     @Test
     void calcUtil() {
-        String result = new CalcUtil("1＋3").getResult().toString();
-        System.out.println(result);
     }
 
 }

@@ -1,13 +1,14 @@
 package indi.eiriksgata.dice.operation.impl;
 
+import indi.eiriksgata.calci.Expression;
 import indi.eiriksgata.dice.callback.RollRandomCallback;
 import indi.eiriksgata.dice.config.DiceConfig;
 import indi.eiriksgata.dice.exception.DiceInstructException;
 import indi.eiriksgata.dice.exception.ExceptionEnum;
 import indi.eiriksgata.dice.operation.RollBasics;
 import indi.eiriksgata.dice.reply.CustomText;
-import indi.eiriksgata.dice.utlis.CalcUtil;
 import indi.eiriksgata.dice.utlis.RegularExpressionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.List;
@@ -88,7 +89,7 @@ public class RollBasicsImpl implements RollBasics {
             }
         }
 
-        String result = new CalcUtil(text).getResult().toString();
+        String result = new Expression(text).value().val.toString();
         callback.getFormulaResult(Integer.valueOf(result), text);
         return CustomText.getText("coc7.roll", inputFormula, text, result);
 
@@ -152,6 +153,25 @@ public class RollBasicsImpl implements RollBasics {
             }
         }
         callback.getResultData(randomCheckNumber, sortArr, randomArr);
+    }
+
+    public static String integerShuffle(int maxValue) {
+        if (maxValue > 100 || maxValue < 2) {
+            return "超出生成的数值范围，请输入2-100范围内";
+        }
+        int[] array = new int[maxValue];
+        for (int i = 0; i < maxValue; i++) {
+            array[i] = i + 1;
+        }
+        Random random = new Random();
+        for (int i = 0; i < array.length; i++) {
+            int randomNumberA = random.nextInt(array.length);
+            int randomNumberB = random.nextInt(array.length);
+            int tempNumber = array[randomNumberB];
+            array[randomNumberB] = array[randomNumberA];
+            array[randomNumberA] = tempNumber;
+        }
+        return ArrayUtils.toString(array);
     }
 
 

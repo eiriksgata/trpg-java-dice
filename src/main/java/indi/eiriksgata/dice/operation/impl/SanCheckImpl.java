@@ -1,8 +1,8 @@
 package indi.eiriksgata.dice.operation.impl;
 
+import indi.eiriksgata.calci.Expression;
 import indi.eiriksgata.dice.callback.SanCheckCallback;
 import indi.eiriksgata.dice.reply.CustomText;
-import indi.eiriksgata.dice.utlis.CalcUtil;
 import indi.eiriksgata.dice.utlis.RegularExpressionUtils;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class SanCheckImpl {
                     formula[1] = formula[1].replaceFirst("[dD]", "*");
                 }
             }
-            String formulaResult = new CalcUtil(formula[1]).getResult().toString();
+            String formulaResult = new Expression(formula[1]).value().val.toString();
             String calProcess = text + "=" + formulaResult;
             int surplus = sanNumber - Integer.valueOf(formulaResult);
             String resultAttribute = attribute.replaceFirst(sanAttribute, "san" + surplus);

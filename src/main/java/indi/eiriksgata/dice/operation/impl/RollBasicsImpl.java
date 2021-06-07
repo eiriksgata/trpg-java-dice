@@ -90,7 +90,7 @@ public class RollBasicsImpl implements RollBasics {
         }
 
         String result = new Expression(text).value().val.toString();
-        callback.getFormulaResult(Integer.valueOf(result), text);
+        callback.getFormulaResult(result, text);
         return CustomText.getText("coc7.roll", inputFormula, text, result);
 
     }

@@ -8,6 +8,6 @@ package indi.eiriksgata.dice.callback;
  **/
 public interface RollRandomCallback {
 
-    void getFormulaResult(int value, String calculationProcess);
+    void getFormulaResult(String value, String calculationProcess);
 
 }

@@ -34,11 +34,19 @@ public class SanCheckImpl {
             //理智判定默认百面骰
             AtomicInteger surplus = new AtomicInteger();
             String resultText = new RollBasicsImpl().rollRandom(formula[0], 0L, (value, calculationProcess) -> {
-                surplus.set(sanNumber - value);
+                try {
+                    surplus.set(Integer.valueOf(value));
+                } catch (NumberFormatException e) {
+                    surplus.set(-1);
+                    return;
+                }
                 String resultAttribute = attribute.replaceFirst(sanAttribute, "san" + surplus);
                 callback.getResultData(resultAttribute, random, sanNumber, calculationProcess, surplus.get());
-
             });
+            if (surplus.get() == -1) {
+                return "不能处理除整数以外的数值";
+            }
+
             return CustomText.getText("coc7.sc.success", text, random, sanNumber, resultText, surplus.get());
         }
 
@@ -70,11 +78,20 @@ public class SanCheckImpl {
             //理智判定默认百面骰
             AtomicInteger surplus = new AtomicInteger();
             String resultText = new RollBasicsImpl().rollRandom(formula[1], 0L, (value, calculationProcess) -> {
-                surplus.set(sanNumber - value);
+                try {
+                    surplus.set(Integer.valueOf(value));
+                } catch (NumberFormatException e) {
+                    surplus.set(-1);
+                    return;
+                }
                 String resultAttribute = attribute.replaceFirst(sanAttribute, "san" + surplus);
                 callback.getResultData(resultAttribute, random, sanNumber, calculationProcess, surplus.get());
 
             });
+            if (surplus.get() == -1) {
+                return "不能处理除整数以外的数值";
+            }
+
             return CustomText.getText("coc7.sc.fail", text, random, sanNumber, resultText, surplus.get());
         }
 

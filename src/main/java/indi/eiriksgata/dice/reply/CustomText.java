@@ -7,10 +7,10 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * @author: create by Keith
- * @version: v1.0
- * @description: indi.eiriksgata.dice.reply
- * @date:2020/10/16
+ * author: create by Keith
+ * version: v1.0
+ * description: indi.eiriksgata.dice.reply
+ * date:2020/10/16
  **/
 
 public class CustomText {

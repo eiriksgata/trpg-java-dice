@@ -22,7 +22,7 @@ public class RollBasicsImpl implements RollBasics {
 
     @Override
     public String todayRandom(long id, int zone) {
-        long timestamp = (System.currentTimeMillis() + (1000 * 60 * 60 * zone)) / (1000 * 60 * 60 * 24);
+        long timestamp = (System.currentTimeMillis() + (1000L * 60 * 60 * zone)) / (1000 * 60 * 60 * 24);
         int result = new Random(timestamp + id).nextInt(100);
         return CustomText.getText("dice.jrrp.success", result);
     }
@@ -38,12 +38,12 @@ public class RollBasicsImpl implements RollBasics {
         String inputFormula = text;
         List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]+|[0-9]+[Dd]|[Dd]", text);
         for (String temp : list) {
-            if (temp.substring(0, 1).equals("d") ||
-                    temp.substring(0, 1).equals("D")) {
+            if (temp.charAt(0) == 'd' ||
+                    temp.charAt(0) == 'D') {
                 if (temp.length() == 1) {
                     if (defaultDiceFace.get(id) == null) {
                         String diceType = DiceConfig.diceSet.getString("dice.type");
-                        int diceFace = Integer.valueOf(DiceConfig.diceSet.getString(diceType + ".face"));
+                        int diceFace = Integer.parseInt(DiceConfig.diceSet.getString(diceType + ".face"));
                         text = text.replaceFirst(temp, String.valueOf(createRandom(1, diceFace)[0]));
                         inputFormula = inputFormula.replaceFirst(temp, "D" + diceFace);
 
@@ -53,7 +53,7 @@ public class RollBasicsImpl implements RollBasics {
 
                     }
                 } else {
-                    int[] diceRandom = createRandom(1, Integer.valueOf(temp.substring(1)));
+                    int[] diceRandom = createRandom(1, Integer.parseInt(temp.substring(1)));
                     text = text.replaceFirst(temp, String.valueOf(diceRandom[0]));
                 }
             } else {
@@ -61,18 +61,18 @@ public class RollBasicsImpl implements RollBasics {
                 int diceNumber;
                 int diceFace;
                 if (dataSplitArr.length == 1) {
-                    diceNumber = Integer.valueOf(dataSplitArr[0]);
+                    diceNumber = Integer.parseInt(dataSplitArr[0]);
                     if (defaultDiceFace.get(id) == null) {
                         String diceType = DiceConfig.diceSet.getString("dice.type");
-                        diceFace = Integer.valueOf(DiceConfig.diceSet.getString(diceType + ".face"));
+                        diceFace = Integer.parseInt(DiceConfig.diceSet.getString(diceType + ".face"));
 
                         //diceFace = 100;
                     } else {
                         diceFace = defaultDiceFace.get(id);
                     }
                 } else {
-                    diceNumber = Integer.valueOf(dataSplitArr[0]);
-                    diceFace = Integer.valueOf(dataSplitArr[1]);
+                    diceNumber = Integer.parseInt(dataSplitArr[0]);
+                    diceFace = Integer.parseInt(dataSplitArr[1]);
                 }
                 int[] randomData = createRandom(diceNumber, diceFace);
                 if (randomData.length > 1) {
@@ -104,7 +104,7 @@ public class RollBasicsImpl implements RollBasics {
     }
 
     static String checkText(int randomValue, int attributeValue) {
-        int roomRuleValue = Integer.valueOf(DiceConfig.diceSet.getString("coc7.rules"));
+        int roomRuleValue = Integer.parseInt(DiceConfig.diceSet.getString("coc7.rules"));
 
         //程度判断
         if (randomValue <= roomRuleValue) {
@@ -132,8 +132,8 @@ public class RollBasicsImpl implements RollBasics {
     }
 
     static void createRandomArray(int bonusNumber, RollArrayCallback callback) throws DiceInstructException {
-        if (bonusNumber > Integer.valueOf(DiceConfig.diceSet.getString("dice.number.max"))
-                || bonusNumber < Integer.valueOf(DiceConfig.diceSet.getString("dice.number.min"))) {
+        if (bonusNumber > Integer.parseInt(DiceConfig.diceSet.getString("dice.number.max"))
+                || bonusNumber < Integer.parseInt(DiceConfig.diceSet.getString("dice.number.min"))) {
             throw new DiceInstructException(ExceptionEnum.DICE_NUMBER_OUT_BOUNDS_ERR);
         }
         int randomCheckNumber = RandomUtils.nextInt(1, 101);

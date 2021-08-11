@@ -67,8 +67,8 @@ public class RollBonusImpl {
         List<String> matchers = RegularExpressionUtils.getMatchers("[0-9]+", text);
         //满足又是多个奖励骰又有属性值
         if (matchers.size() >= 2) {
-            int diceNumber = Integer.valueOf(matchers.get(0));
-            int attributeValue = Integer.valueOf(matchers.get(1));
+            int diceNumber = Integer.parseInt(matchers.get(0));
+            int attributeValue = Integer.parseInt(matchers.get(1));
             String attributeName = text.substring(matchers.get(0).length(), text.length() - matchers.get(1).length());
             getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
             return resultText[0];
@@ -77,7 +77,7 @@ public class RollBonusImpl {
         //默认1个奖励骰 前面没有数据 后面有
         if (text.matches("[\\u4E00-\\u9FA5A-z]+[0-9]+")) {
             int diceNumber = 1;
-            int attributeValue = Integer.valueOf(matchers.get(0));
+            int attributeValue = Integer.parseInt(matchers.get(0));
             String attributeName = text.substring(0, text.length() - matchers.get(0).length());
             getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
             return resultText[0];
@@ -85,18 +85,18 @@ public class RollBonusImpl {
 
         int diceNumber;
         if (text.matches("[0-9]+[\\u4E00-\\u9FA5A-z]+")) {
-            diceNumber = Integer.valueOf(matchers.get(0));
+            diceNumber = Integer.parseInt(matchers.get(0));
             String attributeName = text.substring(matchers.get(0).length());
             int attributeValue;
             try {
-                attributeValue = Integer.valueOf(RegularExpressionUtils.getMatcher(attributeName + "[0-9]+", attribute).substring(attributeName.length()));
+                attributeValue = Integer.parseInt(RegularExpressionUtils.getMatcher(attributeName + "[0-9]+", attribute).substring(attributeName.length()));
             } catch (Exception e) {
                 return CustomText.getText("coc7.bonus.error");
             }
             getResultText(diceNumber, resultText, attributeName, attributeValue, isBonus);
         } else {
             try {
-                diceNumber = Integer.valueOf(text);
+                diceNumber = Integer.parseInt(text);
             } catch (Exception e) {
                 diceNumber = 1;
             }
@@ -121,7 +121,7 @@ public class RollBonusImpl {
                 }
                 return resultText[0];
             }
-            int attributeValue = Integer.valueOf(RegularExpressionUtils.getMatcher(text + "[0-9]+", attribute).substring(text.length()));
+            int attributeValue = Integer.parseInt(RegularExpressionUtils.getMatcher(text + "[0-9]+", attribute).substring(text.length()));
             getResultText(diceNumber, resultText, text, attributeValue, isBonus);
         }
         return resultText[0];

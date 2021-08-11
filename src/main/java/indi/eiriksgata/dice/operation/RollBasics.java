@@ -8,10 +8,10 @@ import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.SanCheckImpl;
 
 /**
- * @author: create by Keith
- * @version: v1.0
- * @description: indi.eiriksgata.dice.operation
- * @date:2020/10/28
+ * author: create by Keith
+ * version: v1.0
+ * description: indi.eiriksgata.dice.operation
+ * date:2020/10/28
  **/
 public interface RollBasics {
 

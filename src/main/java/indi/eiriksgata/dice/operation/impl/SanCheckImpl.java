@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author: create by Keith
- * @version: v1.0
- * @description: indi.eiriksgata.dice.operation.impl
- * @date:2020/10/28
+ * author: create by Keith
+ * version: v1.0
+ * description: indi.eiriksgata.dice.operation.impl
+ * date:2020/10/28
  **/
 public class SanCheckImpl {
 
@@ -22,7 +22,7 @@ public class SanCheckImpl {
 
         //筛选出检测属性 san
         String sanAttribute = RegularExpressionUtils.getMatcher("san[0-9]+", attribute);
-        int sanNumber = Integer.valueOf(sanAttribute.substring("san".length()));
+        int sanNumber = Integer.parseInt(sanAttribute.substring("san".length()));
 
         //分割两个不同的计算方案
         String[] formula = text.split("/");
@@ -35,7 +35,7 @@ public class SanCheckImpl {
             AtomicInteger surplus = new AtomicInteger();
             String resultText = new RollBasicsImpl().rollRandom(formula[0], 0L, (value, calculationProcess) -> {
                 try {
-                    surplus.set(Integer.valueOf(value));
+                    surplus.set(Integer.parseInt(value));
                 } catch (NumberFormatException e) {
                     surplus.set(-1);
                     return;
@@ -55,7 +55,7 @@ public class SanCheckImpl {
             //计算大失败的数值
             List<String> regexResult = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]+|[Dd]", formula[1]);
             for (String item : regexResult) {
-                if (item.substring(0, 1).equals("D") || item.substring(0, 1).equals("d")) {
+                if (item.charAt(0) == 'D' || item.charAt(0) == 'd') {
                     if (item.length() == 1) {
                         formula[1] = formula[1].replaceFirst(item, "100");
                     } else {
@@ -68,7 +68,7 @@ public class SanCheckImpl {
             }
             String formulaResult = new Expression(formula[1]).value().val.toString();
             String calProcess = text + "=" + formulaResult;
-            int surplus = sanNumber - Integer.valueOf(formulaResult);
+            int surplus = sanNumber - Integer.parseInt(formulaResult);
             String resultAttribute = attribute.replaceFirst(sanAttribute, "san" + surplus);
             callback.getResultData(resultAttribute, random, sanNumber, calProcess, surplus);
             return CustomText.getText("coc7.sc.big-fail", text, random, sanNumber, calProcess, surplus);
@@ -79,7 +79,7 @@ public class SanCheckImpl {
             AtomicInteger surplus = new AtomicInteger();
             String resultText = new RollBasicsImpl().rollRandom(formula[1], 0L, (value, calculationProcess) -> {
                 try {
-                    surplus.set(Integer.valueOf(value));
+                    surplus.set(Integer.parseInt(value));
                 } catch (NumberFormatException e) {
                     surplus.set(-1);
                     return;

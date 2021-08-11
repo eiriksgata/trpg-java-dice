@@ -16,7 +16,7 @@ public class AttributeCheckImpl {
         if (text.matches("[\\u4E00-\\u9FA5A-z]+[0-9]+")) {
             String attributeName = RegularExpressionUtils.getMatcher("[\\u4E00-\\u9FA5A-z]+", text);
             String attributeValue = RegularExpressionUtils.getMatcher("[0-9]+", text);
-            return attributeDegree(attributeName, Integer.valueOf(attributeValue));
+            return attributeDegree(attributeName, Integer.parseInt(attributeValue));
         }
 
         //输入中不携带有数值
@@ -27,7 +27,7 @@ public class AttributeCheckImpl {
             if (selectData == null) {
                 throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_PARAMETER_ERR);
             }
-            return attributeDegree(text, Integer.valueOf(selectData.substring(text.length())));
+            return attributeDegree(text, Integer.parseInt(selectData.substring(text.length())));
         }
 
         //指令参数不符合要求
@@ -44,7 +44,7 @@ public class AttributeCheckImpl {
 
 
         //rule value 暂时按骰子全局配置文件负责 以后可能会以个人用户 或者房间数据来进行
-        int roomRuleValue = Integer.valueOf(DiceConfig.diceSet.getString("coc7.rules"));
+        int roomRuleValue = Integer.parseInt(DiceConfig.diceSet.getString("coc7.rules"));
 
         //程度判断
         if (randomValue <= roomRuleValue) {

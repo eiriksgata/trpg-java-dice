@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * @author: create by Keith
- * @version: v1.0
- * @description: PACKAGE_NAME
- * @date:2020/10/23
+ * author: create by Keith
+ * version: v1.0
+ * description: PACKAGE_NAME
+ * date:2020/10/23
  **/
 public class DiceTest {
 

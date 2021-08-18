@@ -11,6 +11,7 @@ import indi.eiriksgata.dice.utlis.RegularExpressionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,6 +20,41 @@ import java.util.concurrent.ConcurrentMap;
 public class RollBasicsImpl implements RollBasics {
 
     public static ConcurrentMap<Long, Integer> defaultDiceFace = new ConcurrentHashMap<>();
+
+    @Override
+    public int dicePoolCount(int number, StringBuilder stringBuilder, int count, int checkValue, int startNumber) {
+        if (number > 0) {
+            stringBuilder.append("{");
+            int tempCount = 0;
+            SecureRandom secureRandom = new SecureRandom();
+            for (int i = 0; i < number; i++) {
+                int randomNumber = secureRandom.nextInt(10) + 1;
+                stringBuilder.append(randomNumber);
+                if (i != number - 1) {
+                    stringBuilder.append(",");
+                }
+                if (randomNumber >= 8) {
+                    count++;
+                }
+                if (randomNumber >= checkValue) {
+                    tempCount++;
+                }
+            }
+            stringBuilder.append("}");
+            number = tempCount;
+            if (number != 0) {
+                stringBuilder.append("+");
+            }
+            return dicePoolCount(number, stringBuilder, count, checkValue, startNumber);
+        }
+        if (startNumber != 0) {
+            stringBuilder.append("+").append(startNumber);
+        }
+
+        stringBuilder.append("=").append(count);
+        return count;
+    }
+
 
     @Override
     public String todayRandom(long id, int zone) {

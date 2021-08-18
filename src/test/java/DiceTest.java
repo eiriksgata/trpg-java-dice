@@ -6,7 +6,6 @@ import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.RollRoleImpl;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * author: create by Keith
  * version: v1.0
@@ -73,6 +72,13 @@ public class DiceTest {
 
     @Test
     void calcUtil() {
+    }
+
+    @Test
+    void dicePool() {
+        StringBuilder stringBuilder = new StringBuilder();
+        System.out.println(new RollBasicsImpl().dicePoolCount(10, stringBuilder, 0, 10, 0));
+        System.out.println(stringBuilder);
     }
 
 }

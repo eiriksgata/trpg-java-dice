@@ -22,21 +22,21 @@ public class RollBasicsImpl implements RollBasics {
     public static ConcurrentMap<Long, Integer> defaultDiceFace = new ConcurrentHashMap<>();
 
     @Override
-    public int dicePoolCount(int number, StringBuilder stringBuilder, int count, int checkValue, int startNumber) {
+    public int dicePoolCount(int number, StringBuilder stringBuilder, int count, int addDiceCheck, int startNumber, int diceFace, int successDiceCheck) {
         if (number > 0) {
             stringBuilder.append("{");
             int tempCount = 0;
             SecureRandom secureRandom = new SecureRandom();
             for (int i = 0; i < number; i++) {
-                int randomNumber = secureRandom.nextInt(10) + 1;
+                int randomNumber = secureRandom.nextInt(diceFace) + 1;
                 stringBuilder.append(randomNumber);
                 if (i != number - 1) {
                     stringBuilder.append(",");
                 }
-                if (randomNumber >= 8) {
+                if (randomNumber >= successDiceCheck) {
                     count++;
                 }
-                if (randomNumber >= checkValue) {
+                if (randomNumber >= addDiceCheck) {
                     tempCount++;
                 }
             }
@@ -45,12 +45,12 @@ public class RollBasicsImpl implements RollBasics {
             if (number != 0) {
                 stringBuilder.append("+");
             }
-            return dicePoolCount(number, stringBuilder, count, checkValue, startNumber);
+            return dicePoolCount(number, stringBuilder, count, addDiceCheck, startNumber, diceFace, successDiceCheck);
         }
         if (startNumber != 0) {
             stringBuilder.append("+").append(startNumber);
         }
-
+        stringBuilder.append("=").append(count - startNumber).append("+").append(startNumber);
         stringBuilder.append("=").append(count);
         return count;
     }
@@ -71,11 +71,11 @@ public class RollBasicsImpl implements RollBasics {
 
     @Override
     public String rollRandom(String text, Long id, RollRandomCallback callback) {
+        text = text.toUpperCase();
         String inputFormula = text;
-        List<String> list = RegularExpressionUtils.getMatchers("[0-9]?[Dd][0-9]+|[0-9]+[Dd]|[Dd]", text);
+        List<String> list = RegularExpressionUtils.getMatchers("[0-9]*[Dd][0-9]+|[0-9]+[Dd]|[Dd]", text);
         for (String temp : list) {
-            if (temp.charAt(0) == 'd' ||
-                    temp.charAt(0) == 'D') {
+            if (temp.charAt(0) == 'D') {
                 if (temp.length() == 1) {
                     if (defaultDiceFace.get(id) == null) {
                         String diceType = DiceConfig.diceSet.getString("dice.type");

@@ -31,7 +31,7 @@ public interface RollBasics {
 
     String rollRandom(String text, Long id, RollRandomCallback callback);
 
-    int dicePoolCount(int number, StringBuilder stringBuilder, int count, int checkValue, int startNumber);
+    int dicePoolCount(int number, StringBuilder stringBuilder, int count, int addDiceCheck, int startNumber, int diceFace, int successDiceCheck);
 
     String todayRandom(long id, int zone);
 }

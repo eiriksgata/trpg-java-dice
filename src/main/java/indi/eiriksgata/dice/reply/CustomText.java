@@ -1,34 +1,77 @@
 package indi.eiriksgata.dice.reply;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
-/**
- * author: create by Keith
- * version: v1.0
- * description: indi.eiriksgata.dice.reply
- * date:2020/10/16
- **/
+import static org.apache.ibatis.io.Resources.getResourceAsStream;
+
 
 public class CustomText {
+    private static JSONObject customText;
+    private static String customTextFilePath = "config/indi.eiriksgata.rulateday-dice/custom-text.json";
 
-    public static String getText(String key, Object... value) {
-        ResourceBundle customText;
+    static {
         try {
-            customText = ResourceBundle.getBundle("custom-text");
-            return MessageFormat.format(new String(
-                    customText.getString(key)
-                            .getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8), value);
-        } catch (MissingResourceException e) {
-            customText = ResourceBundle.getBundle("default-text");
-            return MessageFormat.format(new String(
-                    customText.getString(key)
-                            .getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8), value);
+            customText = JSON.parseObject(new String(
+                    fileRead(new File(customTextFilePath)), StandardCharsets.UTF_8
+            ));
+        } catch (IOException e) {
+            try {
+                InputStream inputStream = getResourceAsStream("default-text.json");
+                customText = JSON.parseObject(new String(
+                        inputStreamRead(inputStream), StandardCharsets.UTF_8
+                ));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
+    public static String getText(String key, Object... value) {
+        return MessageFormat.format(customText.getString(key), value);
+    }
+
+    public void setCustomTextFilePath(String path) {
+        customTextFilePath = path;
+    }
+
+    public static byte[] fileRead(File file) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        int readLength;
+        int countLength = 0;
+        byte[] bufferContent = new byte[1048576];
+        while (true) {
+            readLength = fileInputStream.read(bufferContent, countLength, 1024);
+            if (readLength == -1) {
+                break;
+            }
+            countLength += readLength;
+        }
+        byte[] result = new byte[countLength];
+        System.arraycopy(bufferContent, 0, result, 0, countLength);
+        return result;
+    }
+
+    public static byte[] inputStreamRead(InputStream inputStream) throws IOException {
+        int readLength;
+        int countLength = 0;
+        byte[] bufferContent = new byte[1048576];
+        while (true) {
+            readLength = inputStream.read(bufferContent, countLength, 1024);
+            if (readLength == -1) {
+                break;
+            }
+            countLength += readLength;
+        }
+        byte[] result = new byte[countLength];
+        System.arraycopy(bufferContent, 0, result, 0, countLength);
+        return result;
+    }
 
 }
+

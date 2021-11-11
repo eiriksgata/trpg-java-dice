@@ -66,7 +66,7 @@ public class DiceTest {
 
     @Test
     void roll() {
-        String result = new RollBasicsImpl().rollRandom("1D6＋1d4", 233686862L);
+        String result = new RollBasicsImpl().rollRandom("d20+20d50+2d3+d5", 233686862L);
         System.out.println(result);
     }
 
@@ -77,7 +77,7 @@ public class DiceTest {
     @Test
     void dicePool() {
         StringBuilder stringBuilder = new StringBuilder();
-        System.out.println(new RollBasicsImpl().dicePoolCount(10, stringBuilder, 0, 10, 0));
+        System.out.println(new RollBasicsImpl().dicePoolCount(10, stringBuilder, 0, 10, 0, 10, 8));
         System.out.println(stringBuilder);
     }
 

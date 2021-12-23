@@ -61,7 +61,7 @@ public class DiceTest {
 
     @Test
     void jrrpTest() {
-        System.out.println(new RollBasicsImpl().todayRandom(2353686862L, 8));
+        System.out.println(new RollBasicsImpl().todayRandom(986426162, 8));
     }
 
     @Test

@@ -13,7 +13,6 @@ import org.apache.commons.lang3.RandomUtils;
 
 import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -59,7 +58,9 @@ public class RollBasicsImpl implements RollBasics {
     @Override
     public String todayRandom(long id, int zone) {
         long timestamp = (System.currentTimeMillis() + (1000L * 60 * 60 * zone)) / (1000 * 60 * 60 * 24);
-        int result = new Random(timestamp + id).nextInt(100);
+        SecureRandom secureRandom = new SecureRandom();
+        secureRandom.setSeed(timestamp + id);
+        int result = secureRandom.nextInt(100);
         return CustomText.getText("dice.jrrp.success", result);
     }
 
@@ -199,7 +200,7 @@ public class RollBasicsImpl implements RollBasics {
         for (int i = 0; i < maxValue; i++) {
             array[i] = i + 1;
         }
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         for (int i = 0; i < array.length; i++) {
             int randomNumberA = random.nextInt(array.length);
             int randomNumberB = random.nextInt(array.length);

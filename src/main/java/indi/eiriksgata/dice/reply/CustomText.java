@@ -3,6 +3,7 @@ package indi.eiriksgata.dice.reply;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import indi.eiriksgata.dice.utlis.VersionUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -12,14 +13,42 @@ import static org.apache.ibatis.io.Resources.getResourceAsStream;
 
 
 public class CustomText {
-    private static JSONObject customText;
-    private static String customTextFilePath = "config/indi.eiriksgata.rulateday-dice/custom-text.json";
+    public static JSONObject customText;
+    public static String customTextFilePath = "config/indi.eiriksgata.rulateday-dice/custom-text.json";
+
+    public static void merge(JSONObject defaultJSONObject) {
+        defaultJSONObject.forEach((key, value) -> {
+            if (customText.getString(key) == null) {
+                customText.put(key, value);
+            }
+        });
+        try {
+            fileOut(new File(customTextFilePath), customText.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     static {
         try {
             customText = JSON.parseObject(new String(
                     fileRead(new File(customTextFilePath)), StandardCharsets.UTF_8
             ));
+            String loadFileVersion = customText.getString("custom-text.version");
+            InputStream inputStream = getResourceAsStream("default-text.json");
+            JSONObject defaultJSONObject = JSON.parseObject(new String(
+                    inputStreamRead(inputStream), StandardCharsets.UTF_8
+            ));
+            String defaultFileVersion = defaultJSONObject.getString("custom-text.version");
+            if (loadFileVersion == null) {
+                merge(defaultJSONObject);
+            } else {
+                int result = new VersionUtils().compareVersion(loadFileVersion, defaultFileVersion);
+                if (result == -1) {
+                    merge(defaultJSONObject);
+                }
+            }
+
         } catch (IOException e) {
             try {
                 InputStream inputStream = getResourceAsStream("default-text.json");
@@ -71,6 +100,13 @@ public class CustomText {
         byte[] result = new byte[countLength];
         System.arraycopy(bufferContent, 0, result, 0, countLength);
         return result;
+    }
+
+    public static void fileOut(File file, String text) throws IOException {
+        OutputStream output = new FileOutputStream(file);
+        output.write(text.getBytes(StandardCharsets.UTF_8));
+        output.flush();
+        output.close();
     }
 
 }

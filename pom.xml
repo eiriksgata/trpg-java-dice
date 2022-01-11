@@ -77,16 +77,20 @@
         <resources>
             <resource>
                 <directory>src/main/resources/</directory>
+
+                <includes>
+                    <include>messages/**</include>
+                    <include>default-text.json</include>
+                    <include>dice-config.properties</include>
+                    <include>rulebook.coc.properties</include>
+                    <include>rulebook-dnd.properties</include>
+                </includes>
                 <excludes>
                     <exclude>env/dev/*</exclude>
                     <exclude>env/test/*</exclude>
                     <exclude>env/uat/*</exclude>
                     <exclude>env/prod/*</exclude>
                 </excludes>
-                <includes>
-                    <include>messages/*</include>
-                    <include>*</include>
-                </includes>
             </resource>
             <resource>
                 <directory>src/main/resources/env/${profiles.active}</directory>

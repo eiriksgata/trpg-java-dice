@@ -4,6 +4,7 @@ import indi.eiriksgata.dice.operation.impl.AttributeCheckImpl;
 import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
 import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.RollRoleImpl;
+import indi.eiriksgata.dice.utlis.VersionUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -79,6 +80,12 @@ public class DiceTest {
         StringBuilder stringBuilder = new StringBuilder();
         System.out.println(new RollBasicsImpl().dicePoolCount(10, stringBuilder, 0, 10, 0, 10, 8));
         System.out.println(stringBuilder);
+    }
+
+    @Test
+    void versionUtilTest() {
+        int result = new VersionUtils().compareVersion("1.0.0", "1.0.1");
+        System.out.println(result);
     }
 
 }

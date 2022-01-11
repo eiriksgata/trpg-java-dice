@@ -22,6 +22,7 @@ public class CustomText {
                 customText.put(key, value);
             }
         });
+        customText.put("custom-text.version", defaultJSONObject.getString("custom-text.version"));
         try {
             fileOut(new File(customTextFilePath), customText.toJSONString());
         } catch (IOException e) {

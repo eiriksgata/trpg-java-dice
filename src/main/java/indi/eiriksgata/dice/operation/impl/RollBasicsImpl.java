@@ -177,7 +177,7 @@ public class RollBasicsImpl implements RollBasics {
         int[] randomArr = new int[bonusNumber];
         int[] sortArr = new int[bonusNumber];
         for (int i = 0; i < bonusNumber; i++) {
-            randomArr[i] = RandomUtils.nextInt(0, 10);
+            randomArr[i] = RandomUtils.nextInt(1, 11);
             sortArr[i] = randomArr[i];
         }
         for (int i = 0; i < bonusNumber; i++) {

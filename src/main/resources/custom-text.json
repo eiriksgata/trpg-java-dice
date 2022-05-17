@@ -1,5 +1,5 @@
 {
-  "custom-text.version": "1.0.1",
+  "custom-text.version": "1.0.2",
   "dice.base.parameter.error": "指令中的参数不正确。",
   "dice.pool.parameter.format.error": "参数格式不正确",
   "dice.pool.parameter.range.error": "参数必须要 大于0 & 小于300",
@@ -11,7 +11,9 @@
   "dice.attribute.error": "指令格式错误。.st指令中不包含该属性，或者没有给定属性",
   "dice.sc.instruct.error": "sc指令参数不正确",
   "dice.sc.not-found.error": "找不到san属性",
-  "dice.jrrp.success": "你的今日人品为:{0}",
+  "dice.jrrp.success": [
+    "你的今日人品为:{0}"
+  ],
   "dice.bot.off": "已关闭服务",
   "dice.bot.on": "开启服务",
   "text.big-success": "大成功",

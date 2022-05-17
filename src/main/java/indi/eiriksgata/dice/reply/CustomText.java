@@ -2,8 +2,11 @@ package indi.eiriksgata.dice.reply;
 
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import indi.eiriksgata.dice.utlis.VersionUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -62,8 +65,16 @@ public class CustomText {
         }
     }
 
+    //2022-05-17 增加数个文本，随机回复内容。 json string 兼容为 array<string>
     public static String getText(String key, Object... value) {
-        return MessageFormat.format(customText.getString(key), value);
+        String jsonString;
+        try {
+            JSONArray jsonArray = customText.getJSONArray(key);
+            jsonString = jsonArray.getString(RandomUtils.nextInt(0, jsonArray.size()));
+        } catch (JSONException e) {
+            jsonString = customText.getString(key);
+        }
+        return MessageFormat.format(jsonString, value);
     }
 
     public void setCustomTextFilePath(String path) {

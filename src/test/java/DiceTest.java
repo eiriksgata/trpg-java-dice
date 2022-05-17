@@ -5,6 +5,7 @@ import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
 import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
 import indi.eiriksgata.dice.operation.impl.RollRoleImpl;
 import indi.eiriksgata.dice.utlis.VersionUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -62,7 +63,9 @@ public class DiceTest {
 
     @Test
     void jrrpTest() {
-        System.out.println(new RollBasicsImpl().todayRandom(986426162, 8));
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(new RollBasicsImpl().todayRandom(986426162, 8));
+        }
     }
 
     @Test
@@ -86,6 +89,13 @@ public class DiceTest {
     void versionUtilTest() {
         int result = new VersionUtils().compareVersion("1.0.0", "1.0.1");
         System.out.println(result);
+    }
+
+    @Test
+    void randomUtilsNextInt() {
+        for (int i = 0; i < 2000; i++) {
+            System.out.println(RandomUtils.nextInt(0, 2));
+        }
     }
 
 }

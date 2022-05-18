@@ -84,5 +84,8 @@
   "dice.sa.parameter.error": "你输入的指令参数中没有需要更改的数值",
   "dice.sa.not.set.attribute": "你尚未设置属性，可以通过指令.st来进行设置",
   "dice.sa.not.found.attribute": "你的属性中，不存在该属性，请通过.st重新设置",
-  "dice.sa.update.success": "您的属性已更新:{0}=>{1}{2}"
+  "dice.sa.update.success": "您的属性已更新:{0}=>{1}{2}",
+  "query.doc.lib.result.list.not.found" : "自定义文档没找到相关内容.",
+  "query.doc.lib.result.list.tail": "\n最多显示30条数据。如果需要查询更多信息，请输入更精准的关键字",
+  "query.doc.lib.result.list.title": "查询结果存在多个，请在3分钟以内回复清单的数字来查阅内容:"
 }

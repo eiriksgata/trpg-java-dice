@@ -97,5 +97,6 @@ public class DiceTest {
             System.out.println(RandomUtils.nextInt(0, 2));
         }
     }
+    
 
 }

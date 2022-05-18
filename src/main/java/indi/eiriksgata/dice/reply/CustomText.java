@@ -85,7 +85,7 @@ public class CustomText {
         FileInputStream fileInputStream = new FileInputStream(file);
         int readLength;
         int countLength = 0;
-        byte[] bufferContent = new byte[1048576];
+        byte[] bufferContent = new byte[10485760];
         while (true) {
             readLength = fileInputStream.read(bufferContent, countLength, 1024);
             if (readLength == -1) {

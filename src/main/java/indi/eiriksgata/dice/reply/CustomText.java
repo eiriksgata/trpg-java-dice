@@ -101,7 +101,7 @@ public class CustomText {
     public static byte[] inputStreamRead(InputStream inputStream) throws IOException {
         int readLength;
         int countLength = 0;
-        byte[] bufferContent = new byte[1048576];
+        byte[] bufferContent = new byte[10485760];
         while (true) {
             readLength = inputStream.read(bufferContent, countLength, 1024);
             if (readLength == -1) {

@@ -1,5 +1,7 @@
 
+import indi.eiriksgata.dice.callback.SanCheckCallback;
 import indi.eiriksgata.dice.exception.DiceInstructException;
+import indi.eiriksgata.dice.operation.RollBasics;
 import indi.eiriksgata.dice.operation.impl.AttributeCheckImpl;
 import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
 import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
@@ -98,5 +100,15 @@ public class DiceTest {
         }
     }
     
+    @Test
+    void sanCheckTest() {
+        String result = new RollBasicsImpl().sanCheck("1d5+2d3+5/1d100", "san50", new SanCheckCallback() {
+            @Override
+            public void getResultData(String attribute, int random, int sanValue, String calculationProcess, int surplus) {
+                System.out.println(attribute + "," + random + "," + sanValue + "," + calculationProcess + "," + surplus);
+            }
+        });
+        System.out.println(result);
+    }
 
 }

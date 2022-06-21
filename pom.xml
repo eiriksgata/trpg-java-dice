@@ -80,7 +80,6 @@
 
                 <includes>
                     <include>messages/**</include>
-                    <include>default-text.json</include>
                     <include>dice-config.properties</include>
                     <include>rulebook.coc.properties</include>
                     <include>rulebook-dnd.properties</include>

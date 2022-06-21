@@ -121,14 +121,19 @@ public class RollBasicsImpl implements RollBasics {
                     formula.append(")");
                     text = text.replaceFirst(temp, String.valueOf(formula));
                 } else {
+                    System.out.println(text);
                     text = text.replaceFirst(temp, String.valueOf(randomData[0]));
+                    System.out.println(text);
                 }
             }
         }
-
         String result = new Expression(text).value().val.toString();
         callback.getFormulaResult(result, text);
-        return CustomText.getText("coc7.roll", inputFormula, text, result);
+
+        if (!text.contains("+")) {
+            return CustomText.getText("coc7.roll1", inputFormula, result);
+        }
+        return CustomText.getText("coc7.roll1", inputFormula + "=" + text, result);
 
     }
 

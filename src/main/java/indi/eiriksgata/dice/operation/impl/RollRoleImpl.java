@@ -3,6 +3,8 @@ package indi.eiriksgata.dice.operation.impl;
 import indi.eiriksgata.dice.operation.RollRole;
 import org.apache.commons.lang3.RandomUtils;
 
+import java.util.Arrays;
+
 /**
  * author: create by Keith
  * version: v1.0
@@ -44,13 +46,43 @@ public class RollRoleImpl implements RollRole {
             StringBuilder role = new StringBuilder();
             int attributeCount = 0;
             for (String attributeName : attributeText) {
-                int random = RandomUtils.nextInt(7, 18 + 1);
-                role.append(attributeName).append(":").append(random).append(" ");
-                attributeCount = attributeCount + random;
+                int[] tempDiceValue = new int[4];
+                for (int j = 0; j < 4; j++) {
+                    tempDiceValue[j] = RandomUtils.nextInt(1, 6 + 1);
+                }
+                Arrays.sort(tempDiceValue);
+                int attributeMax = tempDiceValue[1] + tempDiceValue[2] + tempDiceValue[3];
+                role.append(attributeName).append(":").append(attributeMax).append(" ");
+                attributeCount = attributeCount + attributeMax;
             }
             result.append("\n").append(role).append("总计:").append(attributeCount);
         }
         return result.toString();
     }
+    @Override
+    public String createDnd5eRole() {
+        int[] attributeValue = new int[6];
+        int count = 0;
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            int[] tempDiceValue = new int[4];
+            for (int j = 0; j < 4; j++) {
+                tempDiceValue[j] = RandomUtils.nextInt(1, 6 + 1);
+            }
+            result.append(Arrays.toString(tempDiceValue)).append("=>");
+            Arrays.sort(tempDiceValue);
+            int attributeMax = tempDiceValue[1] + tempDiceValue[2] + tempDiceValue[3];
+            count += attributeMax;
+            attributeValue[i] = attributeMax;
+            result.append(tempDiceValue[1]).append("+")
+                    .append(tempDiceValue[2]).append("+")
+                    .append(tempDiceValue[3]).append("+")
+                    .append("=").append(attributeMax).append("\n");
+        }
+        result.append("\n").append("最终数值为:").append(Arrays.toString(attributeValue))
+                .append(",").append("合计:").append(count);
+        return result.toString();
+    }
+
 
 }

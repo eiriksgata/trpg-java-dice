@@ -3,7 +3,6 @@ package indi.eiriksgata.dice.reply;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import indi.eiriksgata.dice.utlis.VersionUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -71,7 +70,7 @@ public class CustomText {
         try {
             JSONArray jsonArray = customText.getJSONArray(key);
             jsonString = jsonArray.getString(RandomUtils.nextInt(0, jsonArray.size()));
-        } catch (JSONException e) {
+        } catch (RuntimeException e) {
             jsonString = customText.getString(key);
         }
         return MessageFormat.format(jsonString, value);

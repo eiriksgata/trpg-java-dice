@@ -10,6 +10,10 @@ import indi.eiriksgata.dice.utlis.VersionUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * author: create by Keith
  * version: v1.0
@@ -23,7 +27,7 @@ public class DiceTest {
         String text = "3d";
         String[] resultArr = text.split("d");
         System.out.println(resultArr.length);
-        System.out.println(resultArr[4]);
+        System.out.println(Arrays.toString(resultArr));
 
     }
 
@@ -72,7 +76,7 @@ public class DiceTest {
 
     @Test
     void roll() {
-        String result = new RollBasicsImpl().rollRandom("d20+20d50+2d3+d5", 233686862L);
+        String result = new RollBasicsImpl().rollRandom("d+5d+3d2+1d3+d+5d6+d", 233686862L);
         System.out.println(result);
     }
 
@@ -99,7 +103,7 @@ public class DiceTest {
             System.out.println(RandomUtils.nextInt(0, 2));
         }
     }
-    
+
     @Test
     void sanCheckTest() {
         String result = new RollBasicsImpl().sanCheck("1d5+2d3+5/1d100", "san50", new SanCheckCallback() {
@@ -111,4 +115,17 @@ public class DiceTest {
         System.out.println(result);
     }
 
+    @Test
+    void regex() {
+        String regex = "[0-9]*[Dd][0-9]+|[0-9]+[Dd]|[Dd]";
+        String source = "d+2d+5d6+d+2d3+d";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(source);
+        while (matcher.find()) {
+            System.out.println("start:" + matcher.group());
+            System.out.println("start:" + matcher.start() + " end:" + matcher.end());
+        }
+
+
+    }
 }

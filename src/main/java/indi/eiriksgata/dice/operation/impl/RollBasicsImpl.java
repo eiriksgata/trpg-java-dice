@@ -8,6 +8,7 @@ import indi.eiriksgata.dice.exception.ExceptionEnum;
 import indi.eiriksgata.dice.operation.RollBasics;
 import indi.eiriksgata.dice.reply.CustomText;
 import indi.eiriksgata.dice.utlis.RegularExpressionUtils;
+import indi.eiriksgata.dice.vo.RegularExpressionResult;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 
@@ -72,29 +73,31 @@ public class RollBasicsImpl implements RollBasics {
 
     @Override
     public String rollRandom(String text, Long id, RollRandomCallback callback) {
-        text = text.toUpperCase();
+        text = text.toUpperCase().trim();
         String inputFormula = text;
-        List<String> list = RegularExpressionUtils.getMatchers("[0-9]*[Dd][0-9]+|[0-9]+[Dd]|[Dd]", text);
-        for (String temp : list) {
-            if (temp.charAt(0) == 'D') {
-                if (temp.length() == 1) {
+        int offsetValue = 0;
+        List<RegularExpressionResult> list = RegularExpressionUtils.getMatchersResult("[0-9]*[Dd][0-9]+|[0-9]+[Dd]|[Dd]", text);
+        for (RegularExpressionResult temp : list) {
+            if (temp.getMatcherText().charAt(0) == 'D') {
+                if (temp.getMatcherText().length() == 1) {
                     if (defaultDiceFace.get(id) == null) {
                         String diceType = DiceConfig.diceSet.getString("dice.type");
                         int diceFace = Integer.parseInt(DiceConfig.diceSet.getString(diceType + ".face"));
-                        text = text.replaceFirst(temp, String.valueOf(createRandom(1, diceFace)[0]));
-                        inputFormula = inputFormula.replaceFirst(temp, "D" + diceFace);
+                        text = text.replaceFirst(temp.getMatcherText(), String.valueOf(createRandom(1, diceFace)[0]));
+                        inputFormula = inputFormula.substring(0, temp.getStartIndex() + offsetValue) + "D" + diceFace + inputFormula.substring(temp.getEndIndex() + offsetValue);
+                        offsetValue += ("" + diceFace).length();
 
                     } else {
-                        text = text.replaceFirst(temp, String.valueOf(createRandom(1, defaultDiceFace.get(id))[0]));
-                        inputFormula = inputFormula.replaceFirst(temp, "D" + defaultDiceFace.get(id));
-
+                        text = text.replaceFirst(temp.getMatcherText(), String.valueOf(createRandom(1, defaultDiceFace.get(id))[0]));
+                        inputFormula = inputFormula.substring(0, temp.getStartIndex()) + "D" + defaultDiceFace.get(id) + inputFormula.substring(temp.getEndIndex());
+                        offsetValue += ("" + defaultDiceFace.get(id)).length();
                     }
                 } else {
-                    int[] diceRandom = createRandom(1, Integer.parseInt(temp.substring(1)));
-                    text = text.replaceFirst(temp, String.valueOf(diceRandom[0]));
+                    int[] diceRandom = createRandom(1, Integer.parseInt(temp.getMatcherText().substring(1)));
+                    text = text.replaceFirst(temp.getMatcherText(), String.valueOf(diceRandom[0]));
                 }
             } else {
-                String[] dataSplitArr = temp.split("[dD]");
+                String[] dataSplitArr = temp.getMatcherText().split("[dD]");
                 int diceNumber;
                 int diceFace;
                 if (dataSplitArr.length == 1) {
@@ -102,11 +105,13 @@ public class RollBasicsImpl implements RollBasics {
                     if (defaultDiceFace.get(id) == null) {
                         String diceType = DiceConfig.diceSet.getString("dice.type");
                         diceFace = Integer.parseInt(DiceConfig.diceSet.getString(diceType + ".face"));
-
-                        //diceFace = 100;
                     } else {
                         diceFace = defaultDiceFace.get(id);
                     }
+                    String replaceText = diceNumber + "D" + diceFace;
+                    inputFormula = inputFormula.substring(0, temp.getStartIndex() + offsetValue) + replaceText + inputFormula.substring(temp.getEndIndex() + offsetValue);
+                    offsetValue += ("" + diceFace).length();
+
                 } else {
                     diceNumber = Integer.parseInt(dataSplitArr[0]);
                     diceFace = Integer.parseInt(dataSplitArr[1]);
@@ -119,11 +124,9 @@ public class RollBasicsImpl implements RollBasics {
                         formula.append("+").append(randomData[j]);
                     }
                     formula.append(")");
-                    text = text.replaceFirst(temp, String.valueOf(formula));
+                    text = text.replaceFirst(temp.getMatcherText(), String.valueOf(formula));
                 } else {
-                    System.out.println(text);
-                    text = text.replaceFirst(temp, String.valueOf(randomData[0]));
-                    System.out.println(text);
+                    text = text.replaceFirst(temp.getMatcherText(), String.valueOf(randomData[0]));
                 }
             }
         }

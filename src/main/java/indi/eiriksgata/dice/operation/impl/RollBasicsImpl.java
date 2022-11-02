@@ -89,7 +89,7 @@ public class RollBasicsImpl implements RollBasics {
 
                     } else {
                         text = text.replaceFirst(temp.getMatcherText(), String.valueOf(createRandom(1, defaultDiceFace.get(id))[0]));
-                        inputFormula = inputFormula.substring(0, temp.getStartIndex()) + "D" + defaultDiceFace.get(id) + inputFormula.substring(temp.getEndIndex());
+                        inputFormula = inputFormula.substring(0, temp.getStartIndex() + offsetValue) + "D" + defaultDiceFace.get(id) + inputFormula.substring(temp.getEndIndex() + offsetValue);
                         offsetValue += ("" + defaultDiceFace.get(id)).length();
                     }
                 } else {

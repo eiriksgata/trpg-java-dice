@@ -25,18 +25,7 @@ public class InstructHandle {
 
     //唯一公开的调用方法
     public String instructCheck(MessageData<?> data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-        //应当先判断传入的字符串长度和对象属性
-        if (data.getMessage() == null || data.getMessage().length() < 1) {
-            return trackInstructCases(data);
-        }
-
-        //先行判断是否符合指令样式
-        if (data.getMessage().charAt(0) == '.' || data.getMessage().charAt(0) == '。') {
-            //将所有空格舍去 移除空格应该在指令方法中去实现，这里不再作统一处理
-            //data.setMessage(data.getMessage().replaceAll(" ", ""));
-            return trackInstructCases(data);
-        }
-        throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_NOT_FOUND);
+        return trackInstructCases(data);
     }
 
     private String trackInstructCases(MessageData<?> data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {

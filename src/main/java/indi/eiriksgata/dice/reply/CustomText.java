@@ -38,7 +38,7 @@ public class CustomText {
                     fileRead(new File(customTextFilePath)), StandardCharsets.UTF_8
             ));
             String loadFileVersion = customText.getString("custom-text.version");
-            InputStream inputStream = getResourceAsStream("default-text.json");
+            InputStream inputStream = getResourceAsStream("custom-text.json");
             JSONObject defaultJSONObject = JSON.parseObject(new String(
                     inputStreamRead(inputStream), StandardCharsets.UTF_8
             ));

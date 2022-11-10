@@ -1,14 +1,15 @@
 package indi.eiriksgata.dice.reply;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import indi.eiriksgata.dice.utlis.VersionUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 
 import static org.apache.ibatis.io.Resources.getResourceAsStream;
@@ -114,7 +115,7 @@ public class CustomText {
     }
 
     public static void fileOut(File file, String text) throws IOException {
-        OutputStream output = new FileOutputStream(file);
+        OutputStream output = Files.newOutputStream(file.toPath());
         output.write(text.getBytes(StandardCharsets.UTF_8));
         output.flush();
         output.close();

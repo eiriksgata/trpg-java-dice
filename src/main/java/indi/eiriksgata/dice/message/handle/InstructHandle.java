@@ -72,7 +72,8 @@ public class InstructHandle {
     //仔细的指令检测方法
     private boolean instructMessageCheck(String message, String instructStr) {
         //具体的逻辑判定 该检测主要作为 统一的指令检测 若单条指令需要作检测，请在@InstrctionReflex的方法中实现
-        return message.contains(instructStr);
+        //需要正则匹配开头，而不是包含其中。
+        return message.matches("^" + instructStr + ".*$");
     }
 
 

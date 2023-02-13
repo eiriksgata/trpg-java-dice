@@ -61,7 +61,7 @@ public class RollBasicsImpl implements RollBasics {
         long timestamp = (System.currentTimeMillis() + (1000L * 60 * 60 * zone)) / (1000 * 60 * 60 * 24);
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.setSeed(timestamp + id);
-        int result = secureRandom.nextInt(100);
+        int result = secureRandom.nextInt(101);
         return CustomText.getText("dice.jrrp.success", result);
     }
 

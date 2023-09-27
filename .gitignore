@@ -3,7 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
-config/
+config/Console/**
+config/indi.eiriksgata.rulateday-dice/**
 
 ### STS ###
 .apt_generated

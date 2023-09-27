@@ -1,12 +1,11 @@
 
-import indi.eiriksgata.dice.callback.SanCheckCallback;
-import indi.eiriksgata.dice.exception.DiceInstructException;
-import indi.eiriksgata.dice.operation.RollBasics;
-import indi.eiriksgata.dice.operation.impl.AttributeCheckImpl;
-import indi.eiriksgata.dice.operation.impl.RollBasicsImpl;
-import indi.eiriksgata.dice.operation.impl.RollBonusImpl;
-import indi.eiriksgata.dice.operation.impl.RollRoleImpl;
-import indi.eiriksgata.dice.utlis.VersionUtils;
+import com.github.eiriksgata.trpg.dice.callback.SanCheckCallback;
+import com.github.eiriksgata.trpg.dice.exception.DiceInstructException;
+import com.github.eiriksgata.trpg.dice.operation.impl.AttributeCheckImpl;
+import com.github.eiriksgata.trpg.dice.operation.impl.RollBasicsImpl;
+import com.github.eiriksgata.trpg.dice.operation.impl.RollBonusImpl;
+import com.github.eiriksgata.trpg.dice.operation.impl.RollRoleImpl;
+import com.github.eiriksgata.trpg.dice.utlis.VersionUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
 

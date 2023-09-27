@@ -27,7 +27,7 @@ Step 1. Add the JitPack repository to your build file
 Step 2. Add the dependency
 ```XML
 <dependency>
-	 <groupId>com.github.Eiriksgata</groupId>
+	 <groupId>com.github.eiriksgata</groupId>
 	 <artifactId>trpg-java-dice</artifactId>
 	 <version>TAG</version> <!-- 请使用最新版 -->
 </dependency>

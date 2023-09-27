@@ -1,11 +1,6 @@
 package com.github.eiriksgata.trpg.dice.callback;
 
-/**
- *  author: create by Keith
- *  version: v1.0
- *  description: indi.eiriksgata.dice.callback
- *  date:2020/10/29
- **/
+
 public interface RollRandomCallback {
 
     void getFormulaResult(String value, String calculationProcess);

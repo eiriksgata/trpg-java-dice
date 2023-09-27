@@ -10,12 +10,6 @@ import java.util.List;
 import static com.github.eiriksgata.trpg.dice.operation.impl.RollBasicsImpl.checkText;
 import static com.github.eiriksgata.trpg.dice.operation.impl.RollBasicsImpl.createRandomArray;
 
-/**
- * author: create by Keith
- * version: v1.0
- * description: indi.eiriksgata.dice.operation.impl
- * date: 2020/11/5
- **/
 public class RollBonusImpl {
 
     private int getBonusData(int checkValue, int[] sortArr) {

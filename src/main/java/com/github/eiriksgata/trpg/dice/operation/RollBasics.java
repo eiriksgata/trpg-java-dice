@@ -7,12 +7,6 @@ import com.github.eiriksgata.trpg.dice.callback.RollRandomCallback;
 import com.github.eiriksgata.trpg.dice.callback.SanCheckCallback;
 import com.github.eiriksgata.trpg.dice.exception.DiceInstructException;
 
-/**
- * author: create by Keith
- * version: v1.0
- * description: indi.eiriksgata.dice.operation
- * date:2020/10/28
- **/
 public interface RollBasics {
 
     String rollRandom(String text, Long id);

@@ -1,19 +1,13 @@
 package com.github.eiriksgata.trpg.dice.operation.impl;
 
+import com.github.eiriksgata.calci.Expression;
 import com.github.eiriksgata.trpg.dice.reply.CustomText;
-import indi.eiriksgata.calci.Expression;
 import com.github.eiriksgata.trpg.dice.callback.SanCheckCallback;
 import com.github.eiriksgata.trpg.dice.utlis.RegularExpressionUtils;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * author: create by Keith
- * version: v1.0
- * description: indi.eiriksgata.dice.operation.impl
- * date:2020/10/28
- **/
 public class SanCheckImpl {
 
 

@@ -5,12 +5,6 @@ import org.apache.commons.lang3.RandomUtils;
 
 import java.util.Arrays;
 
-/**
- * author: create by Keith
- * version: v1.0
- * description: indi.eiriksgata.dice.operation.impl
- * date: 2020/11/12
- **/
 public class RollRoleImpl implements RollRole {
 
 

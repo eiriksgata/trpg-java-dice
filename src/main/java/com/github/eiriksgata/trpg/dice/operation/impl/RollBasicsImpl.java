@@ -1,6 +1,6 @@
 package com.github.eiriksgata.trpg.dice.operation.impl;
 
-import indi.eiriksgata.calci.Expression;
+import com.github.eiriksgata.calci.Expression;
 import com.github.eiriksgata.trpg.dice.callback.RollRandomCallback;
 import com.github.eiriksgata.trpg.dice.config.DiceConfig;
 import com.github.eiriksgata.trpg.dice.exception.DiceInstructException;

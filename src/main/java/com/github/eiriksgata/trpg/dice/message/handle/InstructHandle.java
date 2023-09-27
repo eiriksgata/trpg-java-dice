@@ -12,12 +12,6 @@ import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-/**
- * author: create by Keith
- * version: v1.0
- * description: indi.eiriksgata.dice.message.handle
- * date: 2020/10/15
- **/
 public class InstructHandle {
 
     private static final ResourceBundle scanPath = ResourceBundle.getBundle("trpg-dice-config");

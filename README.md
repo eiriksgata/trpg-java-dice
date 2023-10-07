@@ -5,11 +5,11 @@
 - 该模块主要分为 指令识别 、 数值运算。
 - 通过在框架上设计的时候，应当从不依赖其他项目的基础上去实现。从而极大的降低耦合度
 - 指令的识别通过的是注解反射的形式执行。
-- 该项目为 [mirai-rulateday-dice](https://github.com/Eiriksgata/mirai-rulateday-dice) 的依赖项目。
+- 该项目为 [mirai-rulateday-dice](https://github.com/eiriksgata/mirai-rulateday-dice) 的依赖项目。
 - 该骰子的开发设定主要是目前两大跑团体系：DND 、 COC。
 - 目前作者开发的定义版本为 DND5e 、 COC7版。
 - 该项目将会和 `mirai-rulateday-dice`同步更新。
-- 如果你有什么疑问或者讨论方案，可以选择在在[discussions](https://github.com/Eiriksgata/mirai-rulateday-dice/discussions)进行
+- 如果你有什么疑问或者讨论方案，可以选择在在[discussions](https://github.com/eiriksgata/mirai-rulateday-dice/discussions)进行
 
 ## 快速使用
 
@@ -32,7 +32,7 @@ Step 2. Add the dependency
 	 <version>TAG</version> <!-- 请使用最新版 -->
 </dependency>
 ```
-- 引入方式参考:[jitpack/Eiriksgata/trpg-java-dice](https://www.jitpack.io/#Eiriksgata/trpg-java-dice/1.1.2-alpha)
+- 引入方式参考:[jitpack/eiriksgata/trpg-java-dice](https://www.jitpack.io/#eiriksgata/trpg-java-dice/1.1.2-alpha)
 
 - 引用后需要在当前项目的Resources 资源路径下新建一个配置文件，该文件用于配置反射扫描包路径，具体参考**配置文件说明**
 
@@ -49,7 +49,7 @@ reflections.scan.path=indi.eiriksgata
 
 indi.eiriksgata 为你在项目中使用的@InstructService | @InstructReflex 类的包路径（类似于Mybatis Mapper 的包扫描，此操作仅是加快处理反应速度。越具体越快速）
 
-具体使用请参考 [Mirai-Rualteday-Dice](https://github.com/Eiriksgata/mirai-rulateday-dice) 项目
+具体使用请参考 [Mirai-Rualteday-Dice](https://github.com/eiriksgata/mirai-rulateday-dice) 项目
 
 
 **开发模块划分**

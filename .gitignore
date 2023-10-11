@@ -4,7 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 config/Console/**
-config/indi.eiriksgata.rulateday-dice/**
+config/com.github.eiriksgata.rulateday-dice/**
 
 ### STS ###
 .apt_generated

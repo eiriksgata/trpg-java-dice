@@ -44,10 +44,10 @@ Step 2. Add the dependency
 
 ```properties
 ## trpg-java-dice Config
-reflections.scan.path=indi.eiriksgata
+reflections.scan.path=com.github.eiriksgata
 ```
 
-indi.eiriksgata 为你在项目中使用的@InstructService | @InstructReflex 类的包路径（类似于Mybatis Mapper 的包扫描，此操作仅是加快处理反应速度。越具体越快速）
+com.github.eiriksgata 为你在项目中使用的@InstructService | @InstructReflex 类的包路径（类似于Mybatis Mapper 的包扫描，此操作仅是加快处理反应速度。越具体越快速）
 
 具体使用请参考 [Mirai-Rualteday-Dice](https://github.com/eiriksgata/mirai-rulateday-dice) 项目
 

@@ -16,8 +16,25 @@ import static org.apache.ibatis.io.Resources.getResourceAsStream;
 
 
 public class CustomText {
-    public static JSONObject customText;
-    public static String customTextFilePath = "config/indi.eiriksgata.rulateday-dice/custom-text.json";
+    private static JSONObject customText;
+    private static String customTextFilePath = "config/com.github.eiriksgata.rulateday-dice/custom-text.json";
+
+    public static void setCustomTextFilePath(String path) {
+        customTextFilePath = path;
+        init();
+    }
+
+    public static String getCustomTextFilePath() {
+        return customTextFilePath;
+    }
+
+    public static JSONObject getCustomText() {
+        return customText;
+    }
+
+    static {
+        init();
+    }
 
     public static void merge(JSONObject defaultJSONObject) {
         defaultJSONObject.forEach((key, value) -> {
@@ -33,7 +50,7 @@ public class CustomText {
         }
     }
 
-    static {
+    public static void init() {
         try {
             customText = JSON.parseObject(new String(
                     fileRead(new File(customTextFilePath)), StandardCharsets.UTF_8
@@ -52,7 +69,6 @@ public class CustomText {
                     merge(defaultJSONObject);
                 }
             }
-
         } catch (IOException e) {
             try {
                 InputStream inputStream = getResourceAsStream("default-text.json");
@@ -77,9 +93,6 @@ public class CustomText {
         return MessageFormat.format(jsonString, value);
     }
 
-    public void setCustomTextFilePath(String path) {
-        customTextFilePath = path;
-    }
 
     public static byte[] fileRead(File file) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(file);

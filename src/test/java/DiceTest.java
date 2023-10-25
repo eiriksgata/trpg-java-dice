@@ -13,12 +13,6 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * author: create by Keith
- * version: v1.0
- * description: PACKAGE_NAME
- * date:2020/10/23
- **/
 public class DiceTest {
 
     @Test
@@ -34,7 +28,6 @@ public class DiceTest {
     void randAttribute() {
         try {
             String result = new AttributeCheckImpl().attributeCheck("侦察50", "");
-
             System.out.println(result);
         } catch (DiceInstructException e) {
             e.printStackTrace();

@@ -4,7 +4,7 @@ import com.github.eiriksgata.trpg.dice.exception.DiceInstructException;
 import com.github.eiriksgata.trpg.dice.exception.ExceptionEnum;
 import com.github.eiriksgata.trpg.dice.injection.InstructReflex;
 import com.github.eiriksgata.trpg.dice.injection.InstructService;
-import com.github.eiriksgata.trpg.dice.vo.MessageData;
+import com.github.eiriksgata.trpg.dice.vo.Message;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
@@ -18,11 +18,11 @@ public class InstructHandle {
     private static final Reflections reflections = new Reflections(scanPath.getString("reflections.scan.path"));
 
     //唯一公开的调用方法
-    public String instructCheck(MessageData<?> data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+    public Object instructCheck(Message data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         return trackInstructCases(data);
     }
 
-    private String trackInstructCases(MessageData<?> data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+    private Object trackInstructCases(Message data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(InstructService.class);
         Method highestPriority = null;
         Class<?> highestClazz = null;
@@ -34,7 +34,7 @@ public class InstructHandle {
                     String[] instructArr = method.getAnnotation(InstructReflex.class).value();
                     for (String temp : instructArr) {
                         //方法增强检测命令
-                        if (instructMessageCheck(data.getMessage(), temp)) {
+                        if (instructMessageCheck(data.getBody(), temp)) {
                             if (highestPriority == null) {
                                 highestPriority = method;
                                 highestClazz = clazz;
@@ -54,9 +54,8 @@ public class InstructHandle {
         }
 
         if (highestPriority != null) {
-            data.setMessage(data.getMessage().substring(instructStr.length()));
-            return (String) highestPriority.invoke(highestClazz.getDeclaredConstructor().newInstance(), data);
-
+            data.setBody(data.getBody().substring(instructStr.length()));
+            return highestPriority.invoke(highestClazz.getDeclaredConstructor().newInstance(), data);
         }
 
         throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_NOT_FOUND);

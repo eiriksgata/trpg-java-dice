@@ -6,23 +6,30 @@ import com.github.eiriksgata.trpg.dice.injection.InstructReflex;
 import com.github.eiriksgata.trpg.dice.injection.InstructService;
 import com.github.eiriksgata.trpg.dice.vo.Message;
 import org.reflections.Reflections;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+@Component
 public class InstructHandle {
 
-    private static final ResourceBundle scanPath = ResourceBundle.getBundle("trpg-dice-config");
-    private static final Reflections reflections = new Reflections(scanPath.getString("reflections.scan.path"));
+    protected static final ResourceBundle scanPath = ResourceBundle.getBundle("trpg-dice-config");
+    protected static final Reflections reflections = new Reflections(scanPath.getString("reflections.scan.path"));
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     //唯一公开的调用方法
     public Object instructCheck(Message data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         return trackInstructCases(data);
     }
 
-    private Object trackInstructCases(Message data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+    protected Object trackInstructCases(Message data) throws DiceInstructException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(InstructService.class);
         Method highestPriority = null;
         Class<?> highestClazz = null;
@@ -55,7 +62,8 @@ public class InstructHandle {
 
         if (highestPriority != null) {
             data.setBody(data.getBody().substring(instructStr.length()));
-            return highestPriority.invoke(highestClazz.getDeclaredConstructor().newInstance(), data);
+            Object beanInstance = applicationContext.getBean(highestClazz);
+            return highestPriority.invoke(beanInstance, data);
         }
 
         throw new DiceInstructException(ExceptionEnum.DICE_INSTRUCT_NOT_FOUND);
@@ -63,7 +71,7 @@ public class InstructHandle {
 
 
     //仔细的指令检测方法
-    private boolean instructMessageCheck(String message, String instructStr) {
+    protected boolean instructMessageCheck(String message, String instructStr) {
         //具体的逻辑判定 该检测主要作为 统一的指令检测 若单条指令需要作检测，请在@InstrctionReflex的方法中实现
         //需要正则匹配开头，而不是包含其中。
         return message.matches("^" + instructStr + ".*$");

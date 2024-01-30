@@ -1,5 +1,6 @@
 package com.github.eiriksgata.trpg.dice.exception;
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
